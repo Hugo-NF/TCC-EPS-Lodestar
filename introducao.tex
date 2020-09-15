@@ -4,9 +4,9 @@ Satélite é um termo utilizado para qualquer objeto que gira em torno de um cor
 
 Satélite artificial é qualquer dispositivo projetado para funcionar no espaço orbital da Terra, sendo que a principal variável a ser definida no desenvolvimento de um satélite é a sua missão, pois ela que guia boa parte das escolhas do projeto - órbita utilizada, formato, funcionalidades, tempo de vida, entre outras. Porém, para que esses dispositivos consigam prover alguma utilidade, todos têm uma infraestrutura em comum, o que inclui comunicação de dados, suprimento de energia, cálculo de posição, isso além das suas funções customizadas.\cite{nasa_comms_article} 
 
-Este trabalho de conclusão de curso é um memorial de projeto de um computador de bordo para o nanossatélite do projeto Lodestar. O projeto é uma iniciativa de pesquisadores e alunos da Universidade de Brasília (UnB) que irá colocar em órbita baixa (aproximadamente 500 km de altitude) um nanossatélite até o final de 2020.
+Este trabalho de conclusão de curso é um memorial de projeto de um EPS para o nanossatélite do projeto Alfacrux. O projeto é uma iniciativa de pesquisadores e alunos da Universidade de Brasília (UnB) que irá colocar em órbita baixa (aproximadamente 500 km de altitude) um nanossatélite até o final de 20XX.
 
-O projeto Lodestar tem como objetivo desenvolver um nanossatélite de comunicação em ondas curtas, ou seja, será possível trafegar sinais de voz e dados, porém em baixo volume, uma vez que o foco será prover comunicação em longo alcance para atingir áreas remotas. O nanossatélite será operado pela UnB atráves de bases em solo durante sua vida útil estimada de aproximadamente 2 anos, esse projeto é uma plataforma de interesse estratégico de parceiros como o Exercíto Brasileiro, uma vez que ele poderá ser utilizado, por exemplo, para fornecer comunicações em regiões remotas, a exemplo da Amazônia, onde não se tem infraestrutura ou interesse econômico em ofertar o serviço. 
+O projeto Alfacrux tem como um de seus objetivos desenvolver um nanossatélite de comunicação em ondas curtas, ou seja, será possível trafegar sinais de voz e dados, porém em baixo volume, uma vez que o foco será prover comunicação em longo alcance para atingir áreas remotas. O nanossatélite será operado pela UnB atráves de bases em solo durante sua vida útil estimada de aproximadamente 2 anos, esse projeto é uma plataforma de interesse estratégico de parceiros como o Exercíto Brasileiro, uma vez que ele poderá ser utilizado, por exemplo, para fornecer comunicações em regiões remotas, a exemplo da Amazônia, onde não se tem infraestrutura ou interesse econômico em ofertar o serviço. 
 
 Juntamente com o desenvolvimento do projeto, nos objetivos acadêmico-científicos, deseja-se criar uma base sólida de documentação, do qual esse trabalho faz parte, para consolidar, registrar e propagar a enorme carga de conhecimento gerada pelos participantes do projeto.
 
@@ -14,24 +14,19 @@ Juntamente com o desenvolvimento do projeto, nos objetivos acadêmico-científic
 \subsection{Gerais}\label{gerais}
 % Descrever a necessidade do projeto da placa, seguindo o formato CubeSat, etc...
 
-O computador de bordo (OBC) é o principal sistema de processamento do nanossatélite e, normalmente, é composto de um microcontrolador (\ref{mcu_revision}), conectado a outros subsistemas e periféricos, por meio de barramentos de dados.
+O Sistema Elétrico de Potência (EPS) é um subsistema vital para o funcionamento do \textit{CubeSat}, uma vez que ele é responsável por toda a gestão da energia do satélite. Normalmente, ele é dividido em duas partes principais, sendo uma responsável pelo carregamento da bateria atráves de panéis solares e uma segunda parte de que faz a regulação e distribuição das linhas de tensão necessárias para os demais módulos. 
 
-O objetivo geral desse trabalho é desenvolver uma placa eletrônica que atue como computador de bordo do nanossatélite Lodestar, respeitando as padronizações e as demandas enumeradas abaixo:
+O objetivo geral desse trabalho é desenvolver uma placa eletrônica que atue como EPS do nanossatélite Alfacrux, respeitando as demandas enumeradas abaixo:
 
 \begin{enumerate}
-    \item Adquirir, processar e guardar os dados provenientes dos sensores;
-    \item Monitorar dados do ambiente interno;
-    \item Gerenciar a comunicação com outros sistemas;
-    \item Receber e guardar dados advindos de outros sistemas;
-    \item Executar o controle de altitude;
-    \item Executar o controle de atitude (orientação);
-    \item Validação dos algoritmos de determinação da atitude;
-    \item Permitir integração com futuros desenvolvimentos;
-    \item Utilizar componentes comercialmente disponíveis (\textit{COTS}), ao menor custo possível;
-    \item Operar em um ambiente com variações de clima e pressão;
-    \item Ser auto-suficiente sem geração de energia;
-    \item Estar em concordância com o padrão \textit{Cubesat}, mais detalhes na seção \ref{cubesat_specs}
-    \item Estar em concordância com as especificações da norma (CDS/PC104), mais detalhes na seção \ref{pc104_specs};
+    \item Possuir proteção contra \textit{undervoltage} e \textit{overvoltage} da bateria
+    \item Possuir proteção contra \textit{overcurrent} na linhas reguladas
+    \item Possuir sistema que maximiza a potência da placa solar, mais detalhes na seção \ref{mppt_revision}
+    \item Possuir baterias para manter o satélite alimentado durante os períodos de eclipse
+    \item Possuir controle de quais linhas estão ligadas
+    \item Possuir interface de comunicação com OBC - Computador de bordo
+    \item Permitir desenvolvimentos futuros
+    \item Estar em concordância com o padrão \textit{CubeSat}, mais detalhes na seção \ref{cubesat_revision}
 \end{enumerate}{}
 
 
@@ -42,10 +37,11 @@ O objetivo geral desse trabalho é desenvolver uma placa eletrônica que atue co
 Objetivos específicos (tarefas/deliverables para o TCC 2)
 \begin{enumerate}
     \item Levantamento dos requisitos de consumo
-    \item Levantamento das tarefas esperadas
-    \item Levantamento dos requisitos de processamento
+    \item Levantamento das tarefas do nanossatélite
+    \item Dimensionar a demanda de energia conhecendo o consumo esperado e as tarefas desempenhadas pelos módulos
     \item Levantamento das interfaces necessárias (entre a própria placa e também com outros sistemas do nanossatélite)
     \item Levantamento das condições de operação
     \item Lista de especificações e componentes escolhidos para o projeto
+    \item Simulações dos circuitos do EPS
     \item Projeto da PCB
 \end{enumerate}

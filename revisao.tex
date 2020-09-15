@@ -1,9 +1,9 @@
 \chapter{Revisão Teórica} \label{revisão}
 % [Futuramente, pode ser necessário expandir essa seção]
 
-Esta seção visa oferecer os conceitos necessários para o completo entendimento desse trabalho. Inicialmente, serão apresentados os conceitos relacionados a classificação de satélites, os padrões CubeSat e PC104, alguns conceitos de eletrônica e, por fim, um histórico das missões anteriores
+Esta seção visa oferecer os conceitos necessários para o completo entendimento desse trabalho. Inicialmente, serão apresentados os conceitos relacionados a classificação de satélites, o padrão CubeSat, alguns conceitos de eletrônica e, por fim, um histórico das missões anteriores com enfoque nos sistemas de potência utilizados.
 
-\section{Nanosatélites}
+\section{Nanosatélites}\label{nanosats_revision}
 Normalmente, a classificação mais utilizada para satélites é com relação a sua massa. Na figura abaixo, podemos ver as categorias utilizadas nessa classificação e alguns exemplos de artefatos já lançados. Observe que os nanossatélites se encontram na faixa de 1 até 10 kg.
 
 \noindent
@@ -16,7 +16,7 @@ Normalmente, a classificação mais utilizada para satélites é com relação a
 
  Os principais responsáveis por essa redução de massa são a miniaturização dos circuitos integrados e as padronizações das estruturas de lançamento, como no padrão \textit{Cubesat}. Os nanossatélites são amplamente utilizados nas atividades de ensino, pois permitem um ciclo completo de uma missão espacial mantendo um custo baixo, principalmente devido ao uso de peças comerciais.\cite{barnhart_ref}
 
-\section{\textit{Cubesat}}\label{cubesat_specs}
+\section{\textit{Cubesat}}\label{cubesat_revision}
 
 O padrão \textit{Cubesat} foi um dos grandes responsáveis pela popularização da categoria de nanossatélites, como podemos ver no gráfico abaixo, que mostra o número de lançamentos desse tipo por ano.\cite{cubesats_cgee}.
 
@@ -51,6 +51,13 @@ As principais características dos \textit{Cubesats} são as seguintes:
 
 O padrão é descrito em um documento de domínio público\cite{cubesat_specs_rev13}, onde especifica-se que uma unidade \textit{Cubesat} ou 1U, tem um volume de 1 litro e carga útil de até 1,3 kg, podendo combinar várias unidades dessas para compor satélites maiores (2U, 3U, 6U ou 12U, por exemplo).
 
+Quanto aos requisitos elétricos, o padrão apresenta dois requisitos extremamente importantes que são o \textit{Deployment Switch} e o pino \textit{Remove Before Flight} (RBF).
+\begin{enumerate}
+    \item O \textit{Deployment Switch} é uma chave que deve desconectar eletricamente todos os subsistemas, sem exceções, do sistema de potência.
+    \item Essa chave deve atuar durante todo o tempo que o CubeSat estiver acoplado no P-POD, e esse sinal é recebido dos trilhos do P-POD, conforme figura X.
+    \item Por sua vez, o RBF, é um pino que deve cortar toda a alimentação do satélite uma vez que estiver inserido. Ele será removido após o encaixe na base de lançamento P-POD e não deve avançar mais do que 6.5 mm além dos trilhos.
+\end{enumerate}
+
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
@@ -70,6 +77,16 @@ Essa forma de construir circuitos representou grande avanço na eletrônica, poi
 
 O processo moderno de design de uma PCB é facilitado pelo uso de software de \textit{layout} dedicado que ao final do processo nos fornece os arquivos .gerber que serão usados para a fabricação, nesses arquivos não são colocadas informação sobre os componentes, há apenas as informações que o fabricante da PCB necessita, a exemplo das \textit{layers}, furações, entre outros.
 
+\section{Conversores DC-DC}\label{converters_revision}
+\subsection{Topologia Buck}
+\subsection{Topologia Boost}
+\subsection{Topologia Buck-Boost}
+\subsection{Topologia SEPIC}
+
+\section{MPPT - Maximum Peak Point Tracking}\label{mppt_revision}
+\subsection{Algoritmo: Pertuba e Observa}
+\subsection{Algoritmo: Condutância Incremental}
+
 \subsection{Ambiente espacial}
 Um problema a ser considerado no desenvolvimento, especialmente das placas eletrônicas, é o efeito do ambiente espacial nos subsistemas. Os problemas causados podem variar desde mal funcionamento até danos físicos, normalmente essas considerações são feitas para missões de longa duração realizadas em \textit{LEO} (do inglês \textit{Low Space Orbit}) e \textit{Deep Space} \cite{nasa_state_of_art}.
 
@@ -77,32 +94,7 @@ A quantidade de radiação que incide nos satélites depende da altitude e do ti
 
 A resistência a radiação é um dos grandes desafios das missões \textit{Cubesat}, pois os componentes COTS não tem nenhuma preocupação com radiação durante o processo de design, logo, os clientes desses componentes devem blindar todas as partes eletrônicas, realizar todos os testes de exposição e assumir os possíveis riscos de falhas.
 
-\section{PC/104}\label{pc104_specs}
-A rápida difusão do uso de computadores embarcados, especialmente em fins industriais, exigiu uma forma de ampliar recursos em plataforma SBC (do inglês, \textit{Single Board Computer}, computador de placa única), sem um grande custo ou espaço. Em fevereiro de 1992, foi criado o consórcio do padrão PC/104, que tinha por objetivo padronizar a tecnologia de computadores de bordo para aplicações embarcadas. O PC/104 se transformou no padrão para placas eletrônicas, um dos mais utilizados na indústria e em missões com Cubesats. Esse padrão definido pelo PC/104 \textit{Embedded Consortium} em 2008 e está disponível em documento de domínio público\cite{pc104_document}, nele são definidas restrições mecânicas e elétricas para uma PCB.
-
-As restrições mais relevantes para a nossa aplicação seguem abaixo:
-
-\begin{enumerate}
-    \item A placa deve ter um formato de 90x96mm;
-    \item A potência ativa do módulo deve estar entre 1-2W, limitando a corrente do barramento em 4\textit{m}A;
-    \item Os módulos devem ser de 8 ou 16-bits, correspondentes aos barramentos PC e PC/AT, respectivamente;
-    \item O espaçamento máximo entre as placas é de 15,24mm
-    \item A altura máxima dos componentes na placa é de 11,05mm
-    \item A utilização do barramento deve respeitar a tabela \ref{pc104_signal_assignments_table}
-\end{enumerate}{}
-
-A padronização PC/104 é ideal para missões Cubesat como o projeto Lodestar, pois as restrições de dimensões, barramentos, interfaces mecânicas e elétricas implicam em reduções no custo, riscos e tempo, na maioria das vezes. Sem contar o fato de ser um padrão amplamente utilizado, o que permite a integração de outros módulos que usem o mesmo padrão.
-
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=1]{imagens/PC104-dimensions.png}}
-\captionof{figure}{Especificações de dimensionamento para um módulo de 16-bits PC/104}
-\label{pc104_dimensions_fig}
-\end{minipage}
-
 \section{Microcontrolador/Microprocessador}\label{mcu_revision}
-
 A principal diferenciação entre microcontroladores e microprocessadores está na quantidade de componentes que estão embarcados em um e outro. O microcontrolador (MCU) é um computador completo inteiro em um único circuito integrado, ou seja, contém memórias, timers, portas de comunicação serial, entre outros periféricos. Já o microprocessor contém essencialmente as unidades de controle e cálculo, necessitando de periféricos externos para formar um sistema minímo de um computador.
 
 Os MCUs atualmente encontram uma enorme gama de aplicações na eletrônica moderna, desde máquinas industriais, sistemas embarcados a brinquedos e eletrodomésticos. São exemplos de microcontroladores: Texas Instruments MSP430, PIC, Atmel AVR, ARM Cortex-M, entre outros.
