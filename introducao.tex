@@ -4,29 +4,30 @@ Satélite é um termo utilizado para qualquer objeto que gira em torno de um cor
 
 Satélite artificial é qualquer dispositivo projetado para funcionar no espaço orbital da Terra, sendo que a principal variável a ser definida no desenvolvimento de um satélite é a sua missão, pois ela que guia boa parte das escolhas do projeto - órbita utilizada, formato, funcionalidades, tempo de vida, entre outras. Porém, para que esses dispositivos consigam prover alguma utilidade, todos têm uma infraestrutura em comum, o que inclui comunicação de dados, suprimento de energia, cálculo de posição, isso além das suas funções customizadas.\cite{nasa_comms_article} 
 
-Este trabalho de conclusão de curso é um memorial de projeto de um EPS para o nanossatélite do projeto Alfacrux. O projeto é uma iniciativa de pesquisadores e alunos da Universidade de Brasília (UnB) que irá colocar em órbita baixa (aproximadamente 500 km de altitude) um nanossatélite até o final de 20XX.
+Este trabalho de conclusão de curso se enquadra dentro do projeto Alfacrux do laboratório LODESTAR da Universidade de Brasília (UnB). O projeto é uma iniciativa de pesquisadores e alunos que irá colocar em órbita baixa (aproximadamente 500 km de altitude) um nanossatélite até o final de 2023.
 
-O projeto Alfacrux tem como um de seus objetivos desenvolver um nanossatélite de comunicação em ondas curtas, ou seja, será possível trafegar sinais de voz e dados, porém em baixo volume, uma vez que o foco será prover comunicação em longo alcance para atingir áreas remotas. O nanossatélite será operado pela UnB atráves de bases em solo durante sua vida útil estimada de aproximadamente 2 anos, esse projeto é uma plataforma de interesse estratégico de parceiros como o Exercíto Brasileiro, uma vez que ele poderá ser utilizado, por exemplo, para fornecer comunicações em regiões remotas, a exemplo da Amazônia, onde não se tem infraestrutura ou interesse econômico em ofertar o serviço. 
+O projeto Alfacrux tem como um de seus objetivos desenvolver uma constelação de nanossatélites de comunicação em ondas curtas, ou seja, será possível trafegar sinais de voz e dados, porém em baixo volume, uma vez que o foco será prover comunicação em longo alcance para atingir áreas remotas. O nanossatélite será operado pela UnB atráves de bases em solo durante sua vida útil estimada de aproximadamente 2 anos, esse projeto é uma plataforma de interesse estratégico de parceiros como o Exercíto Brasileiro, uma vez que ele poderá ser utilizado, por exemplo, para fornecer comunicações em regiões remotas, a exemplo da Amazônia, onde não se tem infraestrutura ou interesse econômico em ofertar o serviço. 
 
-Juntamente com o desenvolvimento do projeto, nos objetivos acadêmico-científicos, deseja-se criar uma base sólida de documentação, do qual esse trabalho faz parte, para consolidar, registrar e propagar a enorme carga de conhecimento gerada pelos participantes do projeto.
+% Juntamente com o desenvolvimento do projeto, nos objetivos acadêmico-científicos, deseja-se criar uma base sólida de documentação, do qual esse trabalho faz parte, para consolidar, registrar e propagar a enorme carga de conhecimento gerada pelos participantes do projeto.
 
 \section{Objetivos}
 \subsection{Gerais}\label{gerais}
-% Descrever a necessidade do projeto da placa, seguindo o formato CubeSat, etc...
+
+%TODO Introduzir as diferentes partes de um cubesat. E posicionar o EPS como uma peça importante pois é ela que gerencia e fornece a  energia do sistema. 
 
 O Sistema Elétrico de Potência (EPS) é um subsistema vital para o funcionamento do \textit{CubeSat}, uma vez que ele é responsável por toda a gestão da energia do satélite. Normalmente, ele é dividido em duas partes principais, sendo uma responsável pelo carregamento da bateria atráves de panéis solares e uma segunda parte de que faz a regulação e distribuição das linhas de tensão necessárias para os demais módulos. 
 
-O objetivo geral desse trabalho é desenvolver uma placa eletrônica que atue como EPS do nanossatélite Alfacrux, respeitando as demandas enumeradas abaixo:
+O objetivo geral desse trabalho é propor uma primeira versão de um sistema EPS para os nanossatélites da constelação Alfacrux, respeitando as demandas enumeradas abaixo:
 
 \begin{enumerate}
-    \item Possuir proteção contra \textit{undervoltage} e \textit{overvoltage} da bateria
-    \item Possuir proteção contra \textit{overcurrent} na linhas reguladas
-    \item Possuir sistema que maximiza a potência da placa solar, mais detalhes na seção \ref{mppt_revision}
-    \item Possuir baterias para manter o satélite alimentado durante os períodos de eclipse
-    \item Possuir controle de quais linhas estão ligadas
-    \item Possuir interface de comunicação com OBC - Computador de bordo
-    \item Permitir desenvolvimentos futuros
-    \item Estar em concordância com o padrão \textit{CubeSat}, mais detalhes na seção \ref{cubesat_revision}
+    \item Estar em concordância com o padrão \textit{CubeSat}.
+    \item Possuir proteção contra subtensão e sobretensão da bateria.
+    \item Possuir proteção contra sobrecorrente na linhas reguladas.
+    \item Possuir sistema que maximiza a eficiência da placa solar.
+    \item Possuir baterias para manter o satélite alimentado durante os períodos de eclipse.
+    \item Possuir controle independente das linhas de alimentação.
+    \item Possuir interface de comunicação com OBC - Computador de bordo.
+    \item Permitir desenvolvimentos futuros.
 \end{enumerate}{}
 
 
@@ -36,12 +37,16 @@ O objetivo geral desse trabalho é desenvolver uma placa eletrônica que atue co
 % Entregavel: lista de especificações de projeto
 Objetivos específicos (tarefas/deliverables para o TCC 2)
 \begin{enumerate}
-    \item Levantamento dos requisitos de consumo
-    \item Levantamento das tarefas do nanossatélite
-    \item Dimensionar a demanda de energia conhecendo o consumo esperado e as tarefas desempenhadas pelos módulos
-    \item Levantamento das interfaces necessárias (entre a própria placa e também com outros sistemas do nanossatélite)
-    \item Levantamento das condições de operação
+    \item Levantamento dos requisitos de consumo.
+    \item Levantamento das tarefas do nanossatélite.
+    \item Dimensionamento da demanda de energia conhecendo o consumo esperado e as tarefas desempenhadas pelos módulos.
+%    \item Levantamento das interfaces necessárias (entre a própria placa e também com outros sistemas do nanossatélite)
+    \item Levantamento das condições de operação.
     \item Lista de especificações e componentes escolhidos para o projeto
     \item Simulações dos circuitos do EPS
-    \item Projeto da PCB
+%    \item Projeto da PCB
 \end{enumerate}
+
+% Aqui na introdução, você pode falar sobre as diferentes partes de um cubesat (EPS, ADCS, RF, PL, etc.. ) e contextualizar o problema mostrando que há a necessidade do desenvolvimento de um EPS para o satélite. Para ir além você pode decompor o EPS em diferentes partes e mostrar em qual subsistema está trabalhando. Isso irá afunilar os objetivos para àqueles que você efetivamente concluiu.
+
+% Sugestão de título: Estudo de viabilidade e proposta de topologia de um EPS para nanosatélites da constelação Alphacrux.

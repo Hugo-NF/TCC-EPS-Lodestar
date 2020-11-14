@@ -68,24 +68,24 @@ Quanto aos requisitos elétricos, o padrão apresenta dois requisitos extremamen
 
 Por esses e outros aspectos, os \textit{Cubesats} trouxeram um aspecto inovador capaz de mudar o paradigma do setor espacial, adequando-o à nova tendência de emprego de pequenos satélites para atender a diferentes tipos de demandas.
 
-\section{Printed Circuit Board (PCB)}\label{pcb_revision}
-\textit{Printed Circuit Board}, em português: placa de circuito impresso, é uma técnica amplamente utilizada na eletrônica que consiste em construir uma placa de um material isolante que apresenta em sua superfícies trilhas condutoras que representam o circuito em que serão soldados os dispositivos eletrônicos.
+%\section{Printed Circuit Board (PCB)}\label{pcb_revision}
+%\textit{Printed Circuit Board}, em português: placa de circuito impresso, é uma técnica amplamente utilizada na eletrônica que consiste em construir uma placa de um material isolante que apresenta em sua superfícies trilhas condutoras que representam o circuito em que serão soldados os dispositivos eletrônicos.
 
-Para a maioria dos circuitos, ter apenas uma superficie condutora é insuficiente dado que algum momento durante o design será impossível evitar o cruzamento entre trilhas, portanto, a maioria das PCBs são multicamadas, ou seja, possuem múltiplas camadas de trilhas condutoras isoladas.
+%Para a maioria dos circuitos, ter apenas uma superficie condutora é insuficiente dado que algum momento durante o design será impossível evitar o cruzamento entre trilhas, portanto, a maioria das PCBs são multicamadas, ou seja, possuem múltiplas camadas de trilhas condutoras isoladas.
 
-Essa forma de construir circuitos representou grande avanço na eletrônica, pois esse arranjo permite maior resistência a interferências, melhor fixação dos componentes e otimização no uso do espaço, possibilitando equipamentos menores.
+%Essa forma de construir circuitos representou grande avanço na eletrônica, pois esse arranjo permite maior resistência a interferências, melhor fixação dos componentes e otimização no uso do espaço, possibilitando equipamentos menores.
 
-O processo moderno de design de uma PCB é facilitado pelo uso de software de \textit{layout} dedicado que ao final do processo nos fornece os arquivos .gerber que serão usados para a fabricação, nesses arquivos não são colocadas informação sobre os componentes, há apenas as informações que o fabricante da PCB necessita, a exemplo das \textit{layers}, furações, entre outros.
+%O processo moderno de design de uma PCB é facilitado pelo uso de software de \textit{layout} dedicado que ao final do processo nos fornece os arquivos .gerber que serão usados para a fabricação, nesses arquivos não são colocadas informação sobre os componentes, há apenas as informações que o fabricante da PCB necessita, a exemplo das \textit{layers}, furações, entre outros.
 
 \section{Paineis Solares}
 Os painéis solares, ou PV\footnote{Photovoltaics - conforme literatura em inglês sobre o assunto}, são dispositivos que utilizam o efeito fotovoltaico para produzir energia elétrica. Nas células solares, a diferença de potencial surge quando um elétron recebe energia suficiente para passar da camada de valência para a camada de condução do material semicondutor.
 
 Diferente dos metais, os semicondutores possuem a camada de valência completamente cheia e a camada de condução completamente vazia, e o salto "\textit{gap}" entre as duas camadas é de 1 eV (elétron-volt). Caso o fóton incidente na placa forneça mais energia do que o necessário para o elétron atravessar o salto, o excesso se transforma em calor, em um efeito conhecido por termalização.
 
-\subsection{Curva I-V}
+\subsection*{Curva I-V}
 A curva I-V\footnote{Curva Corrente x Tensão} é uma das caracteristicas mais importantes quando projeta-se algo com painel solar, pois é necessário conhecer e realizar a previsão de parâmetros importantes como a irradiação solar, temperatura e carga que será atendida. A maioria dos métodos presentes na literatura utiliza a curva I-V para o cálculo desses parâmetros ou então outros métodos de natureza empírica, a seguir vamos usar essa técnica\cite{pv_datasheet} para montar um modelo para as simulações.
 
-\subsection{Modelo para simulação}
+\subsection*{Modelo para simulação}
 A curva I-V geral de um painel solar é baseada no modelo exponencial \cite{pv_datasheet}:
 \begin{equation}
     i = I_{ph} - I_{o}(e^{\frac{v + iR_{s}}{n_{s}V_{t}}}-1) - \frac{v + iR_{s}}{R_{sh}}
@@ -111,12 +111,31 @@ Onde os parâmetros do modelo são,
     \item $A$ - Fator de qualidade do diodo
 \end{itemize}
 Além desses parâmetros, $k$ é a constante de Boltzmann, $q$ é a carga do elétron, $n_{s}$ é o número de células conectadas em série, e $T_{stc}$ ($K$) é a temperatura na STC\footnote{STC, sigla para \textit{Standard Test Conditions}, condições de teste para aferir as medidas de caracterização de um painel solar.}.
-\subsection{Ponto de máxima potência}
+
+\subsection*{Ponto de máxima potência}
+
+\textbf{Pendente}
 
 \section{Conversores DC-DC}\label{converters_revision}
 Conversores DC-DC são dispositivos eletrônicos capazes de converter uma tensão de entrada em um tensão diferente e, normalmente, provê uma saída regulada. Os conversores to tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitir uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. As próximas subseções detalharão brevemente os princípios de funcionamento de quatro das topologias mais comumente utilizadas.
 
+%TODO: Falar que você precisa apenas do circuito abaixador de tensão e que irá comparar os circuitos BUCK e o SEPIC. Não é de interesse deste projeto avaliar conversores elevadores de tensão, como Boost, buck-boost.
+
 Antes de continuarmos para as topologias, inicialmente, vamos entender o significado de ser chaveado. Em um circuito chaveado, existirá um transistor que atuará como chave, ou seja, alterar entre os estados completamente ligado e completamente desligado. Para um transistor do tipo BJT isso significa transicionar entre os estados de corte e saturação, no transistor do tipo MOSFET, entre os estados de corte e triodo. 
+
+%TODO: Considerar mesclar essa seção com a seção do conversor Buck.
+\subsection{Pulse Width Modulation (PWM)}
+Todos os conversores abordados abaixo, usam uma forma de regulação da tensão de saída conhecido como modulação por largura de pulso, ou \textit{PWM - Pulse Width Modulation}. Simplificadamente, o loop de feedback ajusta a tensão de saída alterando o tempo em que a chave, ou o elemento comutador, do conversor ficará ligada.
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/PWM_sample.png}}
+\captionof{figure}{Exemplo de uma saída PWM}
+\label{PWM_sample_fig}
+\end{minipage}
+
+A saída na forma de onda quadrada é filtrada e fornece uma tensão de saída DC igual ao valor da tensão de pico $V_{pk}$ multiplicada pelo \textit{Duty Cycle}, que é a razão entre o período ligado e o período local. Esta relação explica como a tensão de saída conversor pode ser diretamente controlada apenas alterando o Duty Cycle.  
 
 \subsection{Topologia Buck}
 A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada para converter uma tensão DC para uma tensão DC menor e de mesma polaridade. O conversor \textit{buck} utiliza um transistor para chavear a tensão de entrada para o indutor, conforme observado no circuito abaixo:
@@ -127,19 +146,19 @@ Para avaliar o funcionamento de circuito, vamos considerar dois momentos, quando
 
 
 
-\subsection{Topologia Boost}
-A topologia \textit{Boost}, como o próprio nome sugere, produz uma tensão DC de saída maior que a tensão de entrada e de mesma polaridade. 
+%\subsection{Topologia Boost}
+%A topologia \textit{Boost}, como o próprio nome sugere, produz uma tensão DC de saída maior que a tensão de entrada e de mesma polaridade. 
 
-\textbf{ Inserir circuitos Boost }
+%\textbf{ Inserir circuitos Boost }
 
-Novamente, vamos avaliar os períodos com a chave fechada e aberta.
+%Novamente, vamos avaliar os períodos com a chave fechada e aberta.
 
 
 
-\subsection{Topologia Buck-Boost}
-A topologia \textit{Buck-Boost} é uma derivação das duas primeiras, de tal forma que é possível, dada uma tensão de entrada, produzir uma tensão de saída maior do que ela e de mesma polaridade, ou uma tensão menor, porém com inversão de polaridade.
+%\subsection{Topologia Buck-Boost}
+%A topologia \textit{Buck-Boost} é uma derivação das duas primeiras, de tal forma que é possível, dada uma tensão de entrada, produzir uma tensão de saída maior do que ela e de mesma polaridade, ou uma tensão menor, porém com inversão de polaridade.
 
-\textbf{ Inserir circuitos Buck-Boost }
+%\textbf{ Inserir circuitos Buck-Boost }
 
 \subsection{Topologia SEPIC}
 O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradução livre, Conversor com Indutância Simples no Primário é um conversor capaz de converter uma tensão DC de entrada para um tensão DC maior ou menor, porém sem que ocorra inversão de polaridade. Essa característica traz uma versatilidade muito boa para essa topologia de conversor, uma vez que a inversão de polaridade costuma ser indesejada em muito projetos. 
@@ -187,96 +206,39 @@ O algoritmo da Condutância Incremental (CI) corrige um dos problemas do Pertuba
 
 Se a condição de equilibrio não for encontrada, a direção em que o ponto de operação MPPT deve ser perturbado, realizando a alteração no $\frac{dI}{dV}$ e $\frac{-I}{V}$. Essa relação é derivada do fato de que $\frac{dP}{dV}$ é negativo quando o MPPT está à direita do ponto de máxima potência e positivo quando está à esquerda.
 
-\section{Microcontrolador/Microprocessador}\label{mcu_revision}
-A principal diferenciação entre microcontroladores e microprocessadores está na quantidade de componentes que estão embarcados em um e outro. O microcontrolador (MCU) é um computador completo inteiro em um único circuito integrado, ou seja, contém memórias, timers, portas de comunicação serial, entre outros periféricos. Já o microprocessor contém essencialmente as unidades de controle e cálculo, necessitando de periféricos externos para formar um sistema minímo de um computador.
+%\section{Microcontrolador/Microprocessador}\label{mcu_revision}
+%A principal diferenciação entre microcontroladores e microprocessadores está na quantidade de componentes que estão embarcados em um e outro. O microcontrolador (MCU) é um computador completo inteiro em um único circuito integrado, ou seja, contém memórias, timers, portas de comunicação serial, entre outros periféricos. Já o microprocessor contém essencialmente as unidades de controle e cálculo, necessitando de periféricos externos para formar um sistema minímo de um computador.
 
-Os MCUs atualmente encontram uma enorme gama de aplicações na eletrônica moderna, desde máquinas industriais, sistemas embarcados a brinquedos e eletrodomésticos. São exemplos de microcontroladores: Texas Instruments MSP430, PIC, Atmel AVR, ARM Cortex-M, entre outros.
+%Os MCUs atualmente encontram uma enorme gama de aplicações na eletrônica moderna, desde máquinas industriais, sistemas embarcados a brinquedos e eletrodomésticos. São exemplos de microcontroladores: Texas Instruments MSP430, PIC, Atmel AVR, ARM Cortex-M, entre outros.
 
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/msp-exp430f5529lp.jpg}}
-\captionof{figure}{Placa de desenvolvimento com um microcontrolador MSP430F5529}
-\label{uC_MSP430_sample_fig}
-\end{minipage}
+%\noindent
+%\begin{minipage}{\linewidth}
+%\makebox[\linewidth]{
+%    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/msp-exp430f5529lp.jpg}}
+%\captionof{figure}{Placa de desenvolvimento com um microcontrolador MSP430F5529}
+%\label{uC_MSP430_sample_fig}
+%\end{minipage}
 
-Para a nossa missão, existirão vários MCUs espalhados em diversos subsistemas do nanossatélites, desempenhando funções distintas. Abaixo seguem alguns critérios importantes na escolha do MCU mais adequado:
+%Para a nossa missão, existirão vários MCUs espalhados em diversos subsistemas do nanossatélites, desempenhando funções distintas. Abaixo seguem %alguns critérios importantes na escolha do MCU mais adequado:
 
-\begin{enumerate}
-    \item Baixo consumo: a disponibilidade de energia em órbia dependerá da área de cobertura e eficiência dos painéis solares e essa potência também será dividida com os outros subsistemas, logo, o nosso MCU tem que consumir pouco quando em funcionamento;
-    \item Conversores AD: O OBC necessitará ler dados de muitos sensores, exemplo: temperatura e luminosidade;
-    \item Portas I/O: As portas GPIO (do inglês \textit{General-Purpose Input/Output}) são essenciais para comunicação com os outros subsistemas;
-    \item Interfaces Seriais: Ter pinos dedicados aos protocolos de comunicação serial (UART, I2C, SPI) ajudam no desenvolvimento do OBC;
-    \item PWM: Para o controle de motores, consequentemente há necessidade de pinos que produzam PWM;
-    \item Frequência de Operação: Deseja-se usar um microcontrolador com uma frequência de \textit{clock} elevada para ter uma melhor performance;
-    \item Faixa de temperatura: O microcontrolador deve resistir a qualquer temperatura encontrada na órbita LEO.
-\end{enumerate}
+% \begin{enumerate}
+%     \item Baixo consumo: a disponibilidade de energia em órbia dependerá da área de cobertura e eficiência dos painéis solares e essa potência também será dividida com os outros subsistemas, logo, o nosso MCU tem que consumir pouco quando em funcionamento;
+%     \item Conversores AD: O OBC necessitará ler dados de muitos sensores, exemplo: temperatura e luminosidade;
+%     \item Portas I/O: As portas GPIO (do inglês \textit{General-Purpose Input/Output}) são essenciais para comunicação com os outros subsistemas;
+%     \item Interfaces Seriais: Ter pinos dedicados aos protocolos de comunicação serial (UART, I2C, SPI) ajudam no desenvolvimento do OBC;
+%     \item PWM: Para o controle de motores, consequentemente há necessidade de pinos que produzam PWM;
+%     \item Frequência de Operação: Deseja-se usar um microcontrolador com uma frequência de \textit{clock} elevada para ter uma melhor performance;
+%     \item Faixa de temperatura: O microcontrolador deve resistir a qualquer temperatura encontrada na órbita LEO.
+% \end{enumerate}
 
-Para cada subsistema, a escolha do microcontrolador priorizará certos itens em detrimento de outros, por exemplo, no contexto do EPS, os conversores AD serão o centro das discussões e comparações entre os modelos, já para o contexto do OBC, consumo de energia e capacidade de processamento serão items mais relevantes.
+% Para cada subsistema, a escolha do microcontrolador priorizará certos itens em detrimento de outros, por exemplo, no contexto do EPS, os conversores AD serão o centro das discussões e comparações entre os modelos, já para o contexto do OBC, consumo de energia e capacidade de processamento serão items mais relevantes.
 
-Mais adiante, no capítulo de desenvolvimento (\ref{desenvolvimento}) abordaremos a nossa escolha de microcontrolador e como esses e outros critérios foram avaliados.
-
-\subsection{Ambiente espacial}
-Um problema a ser considerado no desenvolvimento, especialmente das placas eletrônicas, é o efeito do ambiente espacial nos subsistemas. Os problemas causados podem variar desde mal funcionamento até danos físicos, normalmente essas considerações são feitas para missões de longa duração realizadas em \textit{LEO} (do inglês \textit{Low Space Orbit}) e \textit{Deep Space} \cite{nasa_state_of_art}.
-
-A quantidade de radiação que incide nos satélites depende da altitude e do tipo da órbita. A maioria dos \textit{Cubesats} são colocados em órbitas LEO (entre 100 e 1000 km de altitude), recebendo uma dose de radiação de  aproximadamente 0,1 krad/ano.
-
-A resistência a radiação é um dos grandes desafios das missões \textit{Cubesat}, pois os componentes COTS não tem nenhuma preocupação com radiação durante o processo de design, logo, os clientes desses componentes devem blindar todas as partes eletrônicas, realizar todos os testes de exposição e assumir os possíveis riscos de falhas.
+% Mais adiante, no capítulo de desenvolvimento (\ref{desenvolvimento}) abordaremos a nossa escolha de microcontrolador e como esses e outros critérios foram avaliados.
 
 
-\section{Histórico de missões anteriores}\label{missions_history}
+%\subsection{Ambiente espacial}
+% Um problema a ser considerado no desenvolvimento, especialmente das placas eletrônicas, é o efeito do ambiente espacial nos subsistemas. Os problemas causados podem variar desde mal funcionamento até danos físicos, normalmente essas considerações são feitas para missões de longa duração realizadas em \textit{LEO} (do inglês \textit{Low Space Orbit}) e \textit{Deep Space} \cite{nasa_state_of_art}.
 
-\textbf{Falta revisar essa sessão para o enfoque nos EPS}
+% A quantidade de radiação que incide nos satélites depende da altitude e do tipo da órbita. A maioria dos \textit{Cubesats} são colocados em órbitas LEO (entre 100 e 1000 km de altitude), recebendo uma dose de radiação de  aproximadamente 0,1 krad/ano.
 
-Um levantamento de trabalho com escopo semelhante a este foi realizado e a Tabela \ref{history_table} mostra alguns exemplos de \textit{CubeSats}, indicando a missão, o tamanho, ano de deploy e quais as soluções utilizadas.
-
-\input{tabelas/historico.tex}
-
-O CUTE \cite{cute1_ref} (Cubical  Tóquio  Tech  Engineering  Satellite-I) é um projeto cooperativo do LSS (Laboratory for Space Systems) e o SRTL (Space Robotics and Teleoperations Laboratory), ambos de Tóquio. O computador de bordo foi implementado com um processador Hitachi NPD-20JWL e executava o sistema operacional Windows CE.NET. O  projeto  educacional  de  baixo  custo  usava componentes COTS para uma missão de demonstração tecnológica, o projeto teve diversões lançamentos (Cute-I, Cute 1.7+ APD, Cute 1.7+ APD II). 
-
-O SNAP-1 \cite{snap1_ref} foi o primeiro nanossatélite desenvolvido no Reino Unido pela Surrey Space Centre (SSC) e Surrey Satellite Tecnology Ltd (SSTL) e serviu como veículo de teste para demonstração da nova tecnologia que estava surgindo, ele foi um dos pioneiros dessa nova filósofia de design e mostrou que era possível construir um nanossatélite rapidamente e com custo baixo, utilizando peças COTS.
-
-SamSat-218D \cite{samsat218_ref} foi um nanossatélite desenvolvido na \textit{Samara State Aerospace University}, lançado em 2015, e foi criado com o objetivo de ser uma plataforma de testes para tecnologias de navegação e controle. Além disso, o projeto foi utilizado para testar um OBC experimental, que empregava os processadores ATXmega 128U4 e LPC4357 DualCore, testar o controle de voo em condições anormais e novos painéis solares.
-
-ESTCube-1 \cite{estcube1_ref} foi um \textit{cubesat} 1U lançado pelo foguete Vega VV02. Desenvolvido por uma força tarefa de 4 universidades, tinha o objetivo científico de realizar um prova de conceito de medição e demonstração da tecnologia da tecnologia de velas solares elétricas. Para o OBC um STMicroelectronics STM32F103 (ARM 32bits) foi escolhido para fazer os cálculos.
-
-Cat-2 \cite{cat2_ref} foi um projeto de \textit{cubesat} 6U desenvolvido na \textit{Universitat Politècnica de Catalunya} e iniciado em 2009 para lançar um nanossatélite plataforma para um instrumento GNSS-R (do inglês, \textit{Global Navigation Satellite Systems Reflectometry}) que realizaria altimetria oceânica. A computação de bordo ficou a cargo de um ARM7TDMI.  
-
-O SwissCube-1, \cite{swisscube_ref} foi um \textit{cubesat} suíço científico de tamanho 1U, operado pela Ecole Polytechnique Fédérale de Lausanne (EPFL) para realizar pesquisas sobre o \textit{nightglow} (fenômeno de brilho   noturno na atmosfera terrestre) e também para desenvolver tecnologia para futuras naves espaciais. A  computação  de  bordo utilizava um processador ARM7TDMI e o sistema operacional de tempo real FreeRTOS.
-
-% Segundo \cite{soares2007ginga}:
-
-% \begin{quote}
-% 	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vesti- bulum ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero, nonummy eget, consectetuer id, vulputate a, magna. 
-% \end{quote}
-
-% \lstset{caption=Exemplo de aplicação servidora, label=list:server}
-% \begin{lstlisting}[language=C]
-% int main()
-% { 
-%     FILE *fp;     int len;     
-%     static const int SIZE = 1024;
-%     struct sockaddr_in me, target;
-%     int sock=socket(AF_INET,SOCK_DGRAM,0);
-%     char arquivo[SIZE];
-%     me.sin_family=AF_INET;
-%     me.sin_addr.s_addr=htonl(INADDR_ANY); // endereco IP local 
-%     me.sin_port=htons(0); // porta local (0=auto assign)
-%     bind(sock,(struct sockaddr *)&me,sizeof(me));
-%     target.sin_family=AF_INET;
-%     target.sin_addr.s_addr=inet_addr("192.168.68.217"); // host local 
-%     target.sin_port=htons(8450); // porta de destino 
-
-%     if ((fp = fopen("video1.mp4","rb")) == NULL){
-%         printf("Arquivo nao pode ser aberto.\n"); return -1;
-%     }
-
-%     while(!feof(fp)) {
-%         len = fread(arquivo, 1, sizeof(arquivo), fp);
-%         sendto(sock,arquivo,sizeof(arquivo),0,(struct sockaddr *)&target,sizeof(target));
-%     }
-%     sendto(sock,"FIM",sizeof("FIM"),0,(struct sockaddr *)&target,sizeof(target));
-%     close(sock);
-%     return 0;
-% }
-% \end{lstlisting}
+% A resistência a radiação é um dos grandes desafios das missões \textit{Cubesat}, pois os componentes COTS não tem nenhuma preocupação com radiação durante o processo de design, logo, os clientes desses componentes devem blindar todas as partes eletrônicas, realizar todos os testes de exposição e assumir os possíveis riscos de falhas.
