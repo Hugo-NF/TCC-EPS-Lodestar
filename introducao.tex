@@ -11,11 +11,22 @@ O projeto Alfacrux tem como um de seus objetivos desenvolver uma constelação d
 % Juntamente com o desenvolvimento do projeto, nos objetivos acadêmico-científicos, deseja-se criar uma base sólida de documentação, do qual esse trabalho faz parte, para consolidar, registrar e propagar a enorme carga de conhecimento gerada pelos participantes do projeto.
 
 \section{Objetivos}
-\subsection{Gerais}\label{gerais}
+\subsection*{Gerais}\label{gerais}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/Swisscube_exploded.png}}
+\captionof{figure}{Visão explodida do nanossatélite Swisscube}
+\label{swisscube_exploded_fig}
+\end{minipage}
 
 %TODO Introduzir as diferentes partes de um cubesat. E posicionar o EPS como uma peça importante pois é ela que gerencia e fornece a  energia do sistema. 
+A imagem acima mostra a visão explodida do \textit{cubesat} Swisscube, que é uma das missões que utilizaremos como referência mais adiante, e nela podemos ver que um \textit{cubesat} é composto por vários módulos que desempenham funções distintas. Além de todos os módulos, existe o \textit{payload} do satélite, que é o componente relacionado com a missão que o satélite desempenha, por exemplo, se for uma missão de observação, o \textit{payload} será uma câmera, para uma missão de comunicação o \textit{payload} será um ou vários rádios e assim por diante. 
 
-O Sistema Elétrico de Potência (EPS) é um subsistema vital para o funcionamento do \textit{CubeSat}, uma vez que ele é responsável por toda a gestão da energia do satélite. Normalmente, ele é dividido em duas partes principais, sendo uma responsável pelo carregamento da bateria atráves de panéis solares e uma segunda parte de que faz a regulação e distribuição das linhas de tensão necessárias para os demais módulos. 
+Existem módulos essenciais que normalmente aparecem em toda missão \textit{cubesat}, alguns exemplos são: OBC (On Board Computer) que é responsável por controlar as tarefas em curso no satélite, ADCS (Attitude Determination and Control System) responsável por determinar a atitude e mantê-la sob controle, podendo inclusive alterar a orientação para realizar melhores observações com câmera, melhor ganho de sinal para as transmissões de rádio, entre outras tarefas.
+
+O Sistema Elétrico de Potência (EPS) é desses módulos essenciais para o funcionamento do \textit{CubeSat}, uma vez que ele é responsável por toda a gestão da energia do satélite, desde a aquisição, armazenamento e distribuição dessa energia. Normalmente, ele é dividido em duas partes principais, sendo uma responsável pelo carregamento da bateria atráves de panéis solares e uma segunda parte de que faz a regulação e distribuição das linhas de tensão necessárias para os demais módulos. 
 
 O objetivo geral desse trabalho é propor uma primeira versão de um sistema EPS para os nanossatélites da constelação Alfacrux, respeitando as demandas enumeradas abaixo:
 
@@ -31,11 +42,8 @@ O objetivo geral desse trabalho é propor uma primeira versão de um sistema EPS
 \end{enumerate}{}
 
 
-\subsection{Específicos}\label{especificos}
-% Reunião prof. Café: 
-% Colocar com deliverables os levantamentos (consumo, processamento, interfaces)
-% Entregavel: lista de especificações de projeto
-Objetivos específicos (tarefas/deliverables para o TCC 2)
+\subsection*{Específicos}\label{especificos}
+
 \begin{enumerate}
     \item Levantamento dos requisitos de consumo.
     \item Levantamento das tarefas do nanossatélite.
