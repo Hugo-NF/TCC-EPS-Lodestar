@@ -1,30 +1,18 @@
 \chapter{Desenvolvimento} \label{desenvolvimento}
 
-% \section{Ferramentas Utilizadas}
-% \begin{enumerate}
-%     \item LTSpice XVII x64 - Analog Devices Inc.
-% \end{enumerate}
-
 Antes de iniciar o desenvolvimento, foi realizada uma extensa pesquisa sobre missões com \textit{CubeSats} para buscar referências e teve por objetivo entender os requisitos e especificações de outras missões bem sucedidas e usar essas informações como um guia para o EPS que será desenvolvido no LODESTAR. 
 
 A tabela \ref{history_table} mostra as missões, ano de deploy e um resumo das soluções utilizadas.
 
 \input{tabelas/historico.tex}
 
-O CUTE \cite{cute1_ref} (Cubical  Tóquio  Tech  Engineering  Satellite-I) é um projeto cooperativo do LSS (Laboratory for Space Systems) e o SRTL (Space Robotics and Teleoperations Laboratory), ambos de Tóquio. O computador de bordo foi implementado com um processador Hitachi NPD-20JWL e executava o sistema operacional Windows CE.NET. O  projeto  educacional  de  baixo  custo  usava componentes COTS para uma missão de demonstração tecnológica, o projeto teve diversões lançamentos (Cute-I, Cute 1.7+ APD, Cute 1.7+ APD II). 
+O CUTE \cite{cute1_ref} (Cubical  Tóquio  Tech  Engineering  Satellite-I) é um projeto cooperativo do LSS (Laboratory for Space Systems) e o SRTL (Space Robotics and Teleoperations Laboratory), ambos de Tóquio. O EPS utilizava 4 baterias de Li-ion e as células solares proviam em média 4 W, possuia linhas estabilizadas de 3.3, 5, 6 e 7 V. O  projeto  educacional  de  baixo  custo  usava componentes COTS para uma missão de demonstração tecnológica, o projeto teve outros lançamentos posteriores. (Cute-I, Cute 1.7+ APD, Cute 1.7+ APD II). 
 
-O SNAP-1 \cite{snap1_ref} foi o primeiro nanossatélite desenvolvido no Reino Unido pela Surrey Space Centre (SSC) e Surrey Satellite Tecnology Ltd (SSTL) e serviu como veículo de teste para demonstração da nova tecnologia que estava surgindo, ele foi um dos pioneiros dessa nova filósofia de design e mostrou que era possível construir um nanossatélite rapidamente e com custo baixo, utilizando peças COTS.
+O SNAP-1 \cite{snap1_ref} foi o primeiro nanossatélite desenvolvido no Reino Unido pela Surrey Space Centre (SSC) e Surrey Satellite Tecnology Ltd (SSTL) e serviu como veículo de teste para demonstração da nova tecnologia que estava surgindo, ele foi um dos pioneiros dessa nova filósofia de design e mostrou que era possível construir um nanossatélite rapidamente e com custo baixo, utilizando peças COTS. O seu EPS tem uma arquitetura parcialmente distribuida, porque das suas duas linhas de tensão (5 e 12 V), a de 12 V não é regulada, dessa forma, cada módulo que utilize essa linha deve implementar a regulação. Além disso, utiliza uma única bateria de 10 Wh e o EPS tem um modo burst, onde é possível utilizar até 60 W por alguns minutos.
 
-SamSat-218D \cite{samsat218_ref} foi um nanossatélite desenvolvido na \textit{Samara State Aerospace University}, lançado em 2015, e foi criado com o objetivo de ser uma plataforma de testes para tecnologias de navegação e controle. Além disso, o projeto foi utilizado para testar um OBC experimental, que empregava os processadores ATXmega 128U4 e LPC4357 DualCore, testar o controle de voo em condições anormais e novos painéis solares.
+ESTCube-1 \cite{estcube1_ref} foi um \textit{cubesat} 1U lançado pelo foguete Vega VV02. Desenvolvido por uma força tarefa de 4 universidades, tinha o objetivo científico de realizar um prova de conceito de medição e demonstração da tecnologia da tecnologia de velas solares elétricas. O seu EPS utilizava um design próprio um controlador MPPT da STMicroelectronics (SPV1040) para cada 4 células solares com duas baterias 18650 da Panasonic totalizando 9 Wh e linhas controladas de 12, 5 e 3.3 V.
 
-ESTCube-1 \cite{estcube1_ref} foi um \textit{cubesat} 1U lançado pelo foguete Vega VV02. Desenvolvido por uma força tarefa de 4 universidades, tinha o objetivo científico de realizar um prova de conceito de medição e demonstração da tecnologia da tecnologia de velas solares elétricas. Para o OBC um STMicroelectronics STM32F103 (ARM 32bits) foi escolhido para fazer os cálculos.
-
-Cat-2 \cite{cat2_ref} foi um projeto de \textit{cubesat} 6U desenvolvido na \textit{Universitat Politècnica de Catalunya} e iniciado em 2009 para lançar um nanossatélite plataforma para um instrumento GNSS-R (do inglês, \textit{Global Navigation Satellite Systems Reflectometry}) que realizaria altimetria oceânica. A computação de bordo ficou a cargo de um ARM7TDMI.  
-
-O SwissCube-1, \cite{swisscube_ref} foi um \textit{cubesat} suíço científico de tamanho 1U, operado pela Ecole Polytechnique Fédérale de Lausanne (EPFL) para realizar pesquisas sobre o \textit{nightglow} (fenômeno de brilho   noturno na atmosfera terrestre) e também para desenvolver tecnologia para futuras naves espaciais. A  computação  de  bordo utilizava um processador ARM7TDMI e o sistema operacional de tempo real FreeRTOS.
-
-
-%\section{Módulos do Cubesat}
+O SwissCube-1, \cite{swisscube_ref}\cite{lessons_swisscube_ref} foi um \textit{cubesat} suíço científico de tamanho 1U, operado pela Ecole Polytechnique Fédérale de Lausanne (EPFL) para realizar pesquisas sobre o \textit{nightglow} (fenômeno de brilho noturno na atmosfera terrestre) e também para desenvolver tecnologia para futuras naves espaciais. O seu EPS utilizava um design próprio com duas baterias de 1200 mAh, uma única linha de tensão, controlada por um circuito analógico, de 3.3 V,  e possui um sistema de beacon integrado que funciona sem o auxilio de microcontroladores externos, como os do OBC, por exemplo.
 
 \section{Análise de consumo energético da missão}
 
@@ -40,9 +28,9 @@ Um dos pontos centrais para um projeto de EPS é dimensionar o \textit{payload} 
         Transceiver UHF & \SI{1.2}{\ampere} & \SI{3.3}{\volt} & \SI{3.96}{\watt}\\
         AD\&CS & \SI{2}{\milli\ampere} & \SI{3.3}{\volt} & \SI{6.6}{\milli\watt}\\
         \hline
-        Total \SI{3.3}{\volt} & ~\SI{1.4}{\ampere} & - & \SI{4}{\watt}\\
+        Total \SI{3.3}{\volt} & ~\SI{1.202}{\ampere} & - & \SI{3.9666}{\watt}\\
         Total \SI{5}{\volt} & ~\SI{1.06}{\ampere} & - & \SI{5.3}{\watt}\\ \hline
-        Total & ~\SI{2.5}{\ampere} & - & \SI{9.3}{\watt}\\
+        Total & ~\SI{2.46}{\ampere} & - & \SI{9.26}{\watt}\\
     \end{tabular}
     \caption{Requisitos de potência para cada subsistema}
     \label{tab:requisites_modules}
@@ -50,14 +38,12 @@ Um dos pontos centrais para um projeto de EPS é dimensionar o \textit{payload} 
 
 A pesquisa pelos outros EPSs lançados nos mostrou algumas opções com relação a arquitetura. A primeira decisão é sobre quem é responsável por fazer a regulação e distribuição das linhas, ou seja, se o EPS deve centralizar a regulação das linhas e já fornecer a alimentação para os diversos módulos já com a tensão e carga requeridas por cada um deles. A outra opção é distribuir essa responsabilidade entre os módulos de forma que cada é responsável por regular as tensões necessárias para o funcionamento interno daquele módulo. Usualmente, quando o EPS é responsável pela regulação das linhas de tensão existe também alguma interface que permita aos módulos controlar qual linha está ligada em um dado momento, normalmente o protocolo $I^{2}C$ é o escolhido para essa comunicação.
 
-A segunda decisão arquitetural envolve a implementação da técnica MPPT, em uma das arquiteturas as células solares são colocadas em regime MPPT com um conversor DC/DC, um microcontrolador é usado para ajustar o \textit{Duty Cycle} de uma \textit{PWM - Pulse Width Modulation} e colocar esse ponto baseado na tensão e corrente da célula solar. A saída do conversor DC/DC é conectada a um circuito de proteção da bateria, responsável por parar o carregamento caso esta esteja totalmente carregada. Esse módulo também é responsável pela proteções de \textit{under-voltage} e \textit{over-current}, o que consiste em basicamente desligar as cargas para proteger a saúde da bateria, dado que existe um limite até é possível que ela seja descarregada. A outra opção existente é utilizar um controlador MPPT completo, onde no mesmo circuito integrado estão reunidos,
+A segunda decisão arquitetural envolve a implementação da técnica MPPT, que será utilizada para maximizar a eficiência do painel solar, em uma das arquiteturas as células solares são colocadas em regime MPPT com um conversor DC/DC, um microcontrolador é usado para ajustar o \textit{Duty Cycle} de uma \textit{PWM - Pulse Width Modulation} e colocar esse ponto baseado na tensão e corrente da célula solar. A saída do conversor DC/DC é conectada a um circuito de proteção da bateria, responsável por parar o carregamento caso esta esteja totalmente carregada. Esse módulo também é responsável pela proteções de \textit{under-voltage} e \textit{over-current}, o que consiste em basicamente desligar as cargas para proteger a saúde da bateria, dado que existe um limite até é possível que ela seja descarregada. A outra opção existente é utilizar um controlador MPPT completo, onde toda essa funcionalidade está integrada em um único chip.
 
 Após isso, a saída protegida é regulada para multiplas linhas que podem alimentar um ou mais subsistemas. 
 
 Baseado nessa arquitetura e nas especificações do padrão Cubesat, a figura \ref{fig:block_diagram} mostra o diagrama de blocos da implementação proposta:
 
-% TODO: Aumentar o tamanho dessa imagem.
-% DONE: Imagem rotacionada e ocupando uma página completa 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
@@ -66,7 +52,7 @@ Baseado nessa arquitetura e nas especificações do padrão Cubesat, a figura \r
 \label{fig:block_diagram}
 \end{minipage}
 
-\subsection{Tarefas e \textit{Power Budget}}
+\subsection*{Tarefas e \textit{Power Budget}}
 
 Após levantar os consumos de cada módulo, o próximo passo é construir um \textit{power budget} baseado nas tarefas que o \textit{cubesat} precisa realizar ao longo de um ciclo.  
 
@@ -80,15 +66,18 @@ Alguns blocos da figura \ref{fig:block_diagram}, tais como as células solares e
 \label{fig:power_budget}
 \end{minipage}
 
-% TODO: Corrigir arrendondamento na planilha
-
 As seguintes premissas foram consideradas na construção dessa tabela:
 
 \begin{enumerate}
     \item O sistema de comunicação irá operar por um período máximo de 20 minutos e permanecerá em modo de recepção durante o restante do ciclo.
     \item O consumo do atuador magnético está modelado para funcionar com pulsos de 1 minuto em potência máxima, é assumido que haverão 100 pulsos durante o ciclo.
     \item O computador de bordo (OBC) estará em modo ativo por no máximo 1 hora e durante o tempo que estiver ocorrendo transmissões, no total de 1 hora e 20 minutos.
+    \item Apenas uma das faces do nanossatélite está exposta à radiação solar por vez.
 \end{enumerate}
+
+
+Na coluna \textit{Source} é colocado de onde é vieram as informações a respeito do módulo, onde aparece a GOMSpace é uma fabricante e fornecedora de nanossatélites e componentes em vários mercados, além de ser uma empresa referência no mercado, com vários cases de sucesso, o laboratório LODESTAR tem intenção de compra com a GOMSpace do nanossatélite do primeiro lançamento da missão. O Abacus é um computador de bordo (OBC) fabricado pela Gauss Srl e utilizado para testes no LODESTAR, por ser um OBC multi-propósito ele tem um consumo maior do que os computadores da GOMSpace, o que pode vir a aumentar o nosso saldo no Power Budget. O atuador magnético \cite{unb_mag_actuator} e o ADCS \textit{TODO: ACHAR REFERENCIA} utilizados de referência são de trabalhos desenvolvidos por alunos do laboratório. 
+
 
 Com esse \textit{power budget}, a menor célular solar (1U) da GOMSPACE é usada como referência. Essa célula solar é capaz de prover até \SI{27}{\watt}. Note que usada apenas essa célula, o \textit{budget} ainda fica com um saldo negativo, o que significa que estamos consumindo menos energia do que a que conseguimos adquirir, porém essa margem ainda é pequena. Portanto, mais células solares devem ser usadas para prover uma quantidade segura de energia.
 
@@ -99,41 +88,12 @@ Conhecer os consumos dos módulos permitiu calcular quantas baterias, aqui estam
 Uma das tarefas cruciais para o projeto do circuito de carga da bateria é escolher o conversor DC/DC que fará a interface entre o painel solar e a bateria, o que nos permite aplicar a técnica de MPPT. Para cumprir essa tarefa, foi realizada uma busca pelos conversores disponíveis comercialmente e abaixo apresentaremos os resultados e as métricas utilizadas para escolha.
 
 
-    
-\subsection{Cenário de simulação}
 
 
-% \noindent
-% \begin{minipage}{\linewidth}
-% \makebox[\linewidth]{
-%     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/Cubesat-diagram.png}}
-% \captionof{figure}{Especificações de dimensionamento para um Cubesat 1U}
-% \label{cubesat1U_dimensions}
-% \end{minipage}
+\section{Solução com controlador integrado}
 
-% A Tabela \ref{tabela1} a seguir apresenta os tipos de \textit{chunk} de um pacote do protocolo.
+O uso de um chip independente para a implentação do MPPT traz muitas vantagens com relação a implementação tradicional com componentes discretos. A primeira delas é que isso torna o sistema MPPT complementamente autônomo, isso permite que o aquisição de energia continue mesmo com o esgotamento total das baterias. A segunda é por dispensar recursos do microcontrolador, seja por livrar recursos de algum que desempenha várias funcionalidade ou dispensar um microcontrolador exclusivo para essa tarefa. A terceira está relacionada com a segunda, que é o \textit{footprint} bem reduzido no projeto final da PCB, pois estamos dispensando vários componentes discretos.
 
-% \begin{table}[ht!]
-%   \begin{center}
-%   \setlength{\belowcaptionskip}{10pt} % espao entre caption e tabela
-%   \footnotesize {
-%       \begin{tabular}{|p{4cm}|p{9cm}|}
-% 	  \hline
-% 	  \textbf{Nome} & \textbf{Função} \\
-% 	  \hline
-% 	  Iniciar & Usado para iniciar uma associação \\
-% 	  \hline
-% 	  Confirmacao & Segunda mensagem de uma configuração de uma associação\\
-% 	  \hline
-% 	  Mensagem & Terceira mensagem de uma configuração de uma associação\\
-% 	  \hline
-% 	  Cookie & Quarta mensagem de uma configuração de uma associação\\
-% 	  \hline
-% 	  Dados & Dados da aplicação\\
-% 	  \hline
-%       \end{tabular}
-%   }
-%   \caption{Tipos de \textit{chunk} de um pacote SCTP}
-%   \label{tabela1}
-%   \end{center}
-% \end{table}
+
+
+

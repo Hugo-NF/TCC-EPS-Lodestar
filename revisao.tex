@@ -103,9 +103,7 @@ Onde os parâmetros do modelo são,
 Além desses parâmetros, $k$ é a constante de Boltzmann, $q$ é a carga do elétron, $n_{s}$ é o número de células conectadas em série, e $T_{stc}$ ($K$) é a temperatura na STC\footnote{STC, sigla para \textit{Standard Test Conditions}, condições de teste para aferir as medidas de caracterização de um painel solar.}.
 
 \section{Conversores DC-DC}\label{converters_revision}
-Conversores DC-DC \cite{ti_whitepaper}\cite{power_electronics_hart} são dispositivos eletrônicos capazes de converter uma tensão de entrada em um tensão diferente e, normalmente, provê uma saída regulada. Os conversores to tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitir uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. As próximas subseções detalharão brevemente os princípios de funcionamento de quatro das topologias mais comumente utilizadas.
-
-%TODO: Falar que você precisa apenas do circuito abaixador de tensão e que irá comparar os circuitos BUCK e o SEPIC. Não é de interesse deste projeto avaliar conversores elevadores de tensão, como Boost, buck-boost.
+Conversores DC-DC \cite{ti_whitepaper}\cite{power_electronics_hart} são dispositivos eletrônicos capazes de converter uma tensão de entrada em um tensão diferente e, normalmente, provê uma saída regulada. Os conversores to tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitir uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. Existem quatro topologias de conversões bastante comuns, porém as próximas subseções detalharão brevemente os princípios de funcionamento das topologias necessárias para o entendimento do trabalho que são a Buck e a SEPIC.
 
 Antes de continuarmos para as topologias, inicialmente, vamos entender o significado de ser chaveado. Em um circuito chaveado, existirá um transistor que atuará como chave, ou seja, alterar entre os estados completamente ligado e completamente desligado. Para um transistor do tipo BJT isso significa transicionar entre os estados de corte e saturação, no transistor do tipo MOSFET, entre os estados de corte e triodo. 
 
@@ -123,20 +121,99 @@ Todos os conversores abordados abaixo, usam uma forma de regulação da tensão 
 
 A saída na forma de onda quadrada é filtrada e fornece uma tensão de saída DC igual ao valor da tensão de pico $V_{pk}$ multiplicada pelo \textit{Duty Cycle}, que é a razão entre o período ligado e o período local. Esta relação explica como a tensão de saída conversor pode ser diretamente controlada apenas alterando o Duty Cycle.  
 
-\subsection*{Topologia Buck}
-A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada para converter uma tensão DC para uma tensão DC menor e de mesma polaridade. O conversor \textit{buck} utiliza um transistor para chavear a tensão de entrada para o indutor, conforme observado no circuito abaixo:
+\subsection*{Topologia SEPIC}
+O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradução livre, Conversor com Indutância Simples no Primário é um conversor capaz de converter uma tensão DC de entrada para um tensão DC maior ou menor, porém sem que ocorra inversão de polaridade. Essa característica traz uma versatilidade muito boa para essa topologia de conversor, uma vez que a inversão de polaridade costuma ser indesejada em muito projetos.  Para essa topologia, como a utilizaremos bastante mais adiante, vamos realizar a demonstração da relação entre as tensões de entrada e saída.   
 
-\textbf{ Inserir circuitos Buck }
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/SEPIC_full.png}}
+\captionof{figure}{Exemplo da topologia SEPIC}
+\label{sepic_topology_sample}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/SEPIC_closed.png}}
+\captionof{figure}{Topologia SEPIC com a chave fechada e o diodo em polarização reversa}
+\label{sepic_topology_closed_sample}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/SEPIC_open.png}}
+\captionof{figure}{Topologia SEPIC com a chave aberta e o diodo em polarização direta}
+\label{sepic_topology_open_sample}
+\end{minipage}
+
+Para a demonstração abaixo, são colocadas as seguintes premissas:
+\begin{enumerate}
+    \item Os indutores são grandes o suficiente para que as correntes sejam constantes
+    \item Os capacitores são grandes o suficiente para que as tensões sejam constantes
+    \item O circuito está operando no estado estável, o que significa que a formas de onda de tensão e corrente são períodicas
+    \item Para um \textit{Duty Cycle D}, a chave fica fechada por \textit{$DT$} e aberta por \textit{$(1 - D)T$}
+    \item A chave e o diodo são ideais
+\end{enumerate}
+
+Aplicando a Lei de Kirchoff no laço $V_{1}$, $L_{1}$, $C_{1}$, $L_{2}$:
+\begin{equation}
+    - V_{1} + V_{L1} + V_{C1} - V_{L2} = 0
+\end{equation}
+
+Considerando a tensões médias atráves do indutores:
+\begin{equation}
+    \begin{split}
+        - V_{1} + 0 + V_{C1} - 0 = 0 \\ V_{C1} = V_{1}
+    \end{split}
+    \label{sepic_eq_1}
+\end{equation}
+
+Quando a chave está fechada e o diodo em polarização reversa, conforme na figura \ref{sepic_topology_closed_sample}. A tensão em $L_{1}$ pelo período \textit{DT} é:
+\begin{equation}
+    V_{L1} = V_{S}
+\end{equation}
+
+Quando a chave está aberta e o diodo em polarização direta, conforme na figura \ref{sepic_topology_open_sample}. A Lei de Kirchoff no laço mais externo nos entrega:
+\begin{equation}
+    -V_{1} + V_{L1} + V_{C1} + V_{R1} = 0
+\end{equation}
+
+Substituindo a relação \ref{sepic_eq_1}:
+\begin{equation}
+    \begin{split}
+        -V_{1} + V_{L1} + V_{1} + V_{R1} = 0 \\
+        V_{L1} = - V_{R1}
+    \end{split}
+    \label{sepic_eq_2}
+\end{equation}
+
+Expandindo a equação considerando os períodos da chave aberta e chave fechada:
+\begin{equation}
+    \begin{split}
+        V_{L1 (SW CLOSED)} (DT) + V_{L1 (SW OPEN)} (1-D)T = 0\\
+        V_{1}(DT) - V_{R1}(1-D)T = 0\\
+        V_{R1} = V_{1} (\frac{D}{1-D})
+    \end{split}
+\end{equation}
+
+Onde \textit{D} é o \textit{Duty Cycle} aplicado na chave.
+
+\subsection*{Topologia Buck}
+A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada para converter uma tensão DC para uma tensão DC menor e de mesma polaridade. Para essa topologia, apresentaremos apenas uma análise qualitativa, uma vez que a relação entre as tensões pode ser feita de forma analóga ao conversor SEPIC. O conversor \textit{buck} utiliza um transistor para chavear a tensão de entrada para o indutor, conforme observado no circuito abaixo:
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/Buck_sample.png}}
+\captionof{figure}{Exemplo da topologia Buck}
+\label{buck_topology_sample}
+\end{minipage}
 
 Quando a chave é ligada, a tensão de entrada é conectada com o indutor. A diferença entre as tensões da entrada e saída é forçada através do indutor, fazendo com que a corrente passando por ele aumente. Portanto, enquanto a chave estiver ligada, a corrente passa pela carga e pelo capacitor de saída, que está carregando nesse período. Quando a chave é desligada, a tensão aplicada no indutor some, entretanto, como a corrente de um indutor não pode mudar instantaneamente, caso contrário estariamos violando a Lei da Indutância\footnote{Pela Lei da Indutância, seria necessário uma tensão infinita para interromper a corrente passando um indutor de forma instântanea}, a tensão através do indutor será ajustada para manter a corrente constante.
 
 A extremidade de entrada do indutor é forçada pela tensão negativa devido à diminuição da corrente, eventualmente colocando o diodo no estado de condução, a partir desse momento a corrente do indutor passa pela carga e volta atráves do diodo. Ainda durante o período de chave desligada, o capacitor de saída se descarrega na carga, contribuindo com a corrente total que é fornecida durante o período. 
-
-
-\subsection*{Topologia SEPIC}
-O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradução livre, Conversor com Indutância Simples no Primário é um conversor capaz de converter uma tensão DC de entrada para um tensão DC maior ou menor, porém sem que ocorra inversão de polaridade. Essa característica traz uma versatilidade muito boa para essa topologia de conversor, uma vez que a inversão de polaridade costuma ser indesejada em muito projetos. 
-
-\textbf{ Inserir circuitos Sepic }
 
 
 \section{MPPT - Maximum Peak Point Tracking}\label{mppt_revision}
