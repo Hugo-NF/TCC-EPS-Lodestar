@@ -1,12 +1,17 @@
 %Usar \chapter*{Título do Capítulo} faz com que o capítulo não seja numerado
 \chapter{Conclusão} \label{conclusao}
 
-Insira a conclusão aqui
+Este trabalho apresentou um estudo de viabilidade e proposta de topologia para o futuro módulo EPS - \textit{Electrical Power System} para os \textit{cubesats} da constelação Alfacrux da Universidade de Brasília (UnB). 
 
-% Este trabalho apresentou o projeto do computador de bordo (OBC) para a futura missão do projeto Lodestar da Universidade de Brasília (UnB).
+Inicialmente foi realizada uma conceituação básica do tema, apresentando o projeto Alfacrux em seguida do conceito de \textit{cubesat} e seus módulos, como o módulo EPS se encaixa no \textit{cubesat} e qual papel desempenha. Em seguida, foram apresentados os requisitos propostos para o módulo e quais os objetivos desse trabalho diante desses requisitos.
 
-% Inicialmente foi realizada uma breve contextualização do tema, seguida de um levantamento dos objetivos do trabalho, onde foram descritos os requisitos exigidos no desenvolvimento e construção do hardware. 
+Na revisão téorica, abordou-se os principais conceitos para o entendimento da topologia proposta, apresentou-se a especificação \textit{cubesat}, o funcionamento básico de um painel solar, os dispositivos de conversão DC-DC, a técnica MPPT - \textit{Maximum Peak Point Tracking} e os dois algoritmos mais utilizados para executá-la.
 
-% Em seguida, foi apresentada uma revisão teórica onde abordou-se os principais conceitos para o entendimento do design, partindo dos conceitos de nanossatélite, \textit{CubeSats}, PCB, passando pela especificação PC/104 e, por fim, foi feito um breve levantamento de alguns nanossatélites lançados em missões anteriores e que serviram de aprendizado para esse trabalho.
+O desenvolvimento inicia apresentando um \textit{background} de missões anteriores de quatro nanossatélites distintos e quais soluções eram utilizadas para os módulos EPS. Após isso, é mostrado o levantamento que foi realizado em termos dos \textit{payloads}, os seus consumos e tarefas desempenhadas por eles e como que esse consumo energético está ligado ao dimensionamento do EPS.
 
-% Logo em seguida, iniciou-se o capítulo de desenvolvimento, mostrando ... TO BE CONTINUED
+A proposta foi dividida em duas topologias, uma com os componentes discretos, na qual foram simulados e comparados vários modelos de conversores DC-DC, seguindo os modelos de referência apresentados para placa solar, baterias e EPS. O primeiro deles o LM2735 com a proposta de ser uma solução mais simples, com menos configurações, menos espaço de PCB, porém com bastante eficiência. O LT8364 como uma solução mais maleável em termos de configurações. Para a segunda topologia com o controlador MPPT, foi apresentado o SPV1040, o mesmo utilizado na missão ESTCube-1, as suas especificações, um circuito projetado para o cenário proposto conforme explicado nos modelos de referência, porém que não foi possível executar simulações pela ausência de modelos SPICE para o componente.
+
+\subsection*{Recomendações e Próximos Passos}
+
+Os trabalhos futuros são de extrema importância para a continuidade do projeto, uma continuação lógica dá-se na aquisição dos componentes aqui apresentados e estudados para a realização de uma prova de conceito e validar o que foi proposto, eliminando todas as restrições impostas pela simulação. Outra tarefa que também deve vir em seguida é a integração desses componentes que compõem o circuito de carga da bateria ao \textit{layout} de PCB para o módulo EPS que já se encontra em fase de projeto e desenvolvimento pelo aluno Luiz Antônio, com a orientação do Professor Daniel Café, trabalho o qual estou acompanhando de perto.
+

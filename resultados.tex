@@ -1,16 +1,188 @@
 \chapter{Resultados} \label{resultados}
 
-\section{Cenário de simulação}
+\section{Modelos de referência}
+O painel solar escolhido para as simulações é um modelo da GOMSpace, o NanoPower P110 \cite{pv_gomspace_datasheet}, a tabela \ref{pv_specs_table} detalha as suas especificações técnicas. Para simular da melhor forma o comportamento do painel nas simulações SPICE, utilizaremos o modelo de aproximação pelos dados do datasheet, conforme apresentado na revisão teórica.
 
-\subsection*{Métricas de comparação}
+\input{tabelas/pv_specs.tex}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/PV_model_circuit.png}}
+\captionof{figure}{Circuito equivalente para o painel solar}
+\label{fig:model_pv_circuit}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/PV_model_traces_mpps.png}}
+\captionof{figure}{Gráfico de tensão na bateria x potência entregue}
+\label{fig:model_pv_traces}
+\end{minipage}
+
+No circuito da figura \ref{fig:model_pv_circuit}, além do modelo da célula solar foi colocado um modelo simplificado de bateria consistindo de um fonte de tensão e resistor em série. As fontes lineares dependentes foram adicionadas para simular as células conectadas em série, no caso do painel NanoPower P110 trata-se de duas células 3G30A SCA.
+
+No gráfico \ref{fig:model_pv_traces}, cada uma das curvas dispostas representam irradiações solares distintas, atráves de uma simulação \textit{DC sweep}, alterando as correntes de entrada. A medida que a irradiação solar aumenta, a curva I-V aumenta a sua área e os pontos de máxima potência, marcados em vermelho, se modificam com a tensão de saída no painel solar, o que mostra a necessidade de trabalhar sempre no ponto de máxima potência.  
+
+Para efeitos de simplificação dos esquemáticos, o modelo apresentado estará representado dentro de um modelo customizado no simulador LTSpice chamado de Model\_PV.
+
+Para as baterias, o nosso modelo de referência \cite{battery_gomspace_datasheet} é a bateria Ion-lítio NanoPower 18650 de 2600 mAh. Porém, na questão das baterias, existe uma complexidade a mais, conforme vimos no histórico das missões anteriores, a quantidade e arranjo das células podem variar e isso afeta a condição de carregamento das baterias, por esse motivo, as simulações utilizarão um conversor Buck para a situação em que a tensão de carregamento é menor do que a saída do painel solar e conversores SEPIC para o caso em que a tensão de carregamento bem próxima ou maior do que a tensão do painel. Como referência nas simulações, estaremos utilizando, a tensão de carregamento do EPS da GOMSpace, modelo NanoPower P31u \cite{eps_gomspace_datasheet} para os dois primeiros conversores e a tensão de carregamento de apenas uma célula de bateria para o restante.
+
+Para os conversores e controladores, que são os alvos do trabalho, estaremos utilizando os modelos SPICE, fornecidos pelas próprias fabricantes dos chips, sem nenhuma alteração ou customização. 
+
+\subsection*{Cenários de simulação}
+
+Para cada conversor, além do cenário em operação normal, serão apresentadas os seguintes cenários:
+\begin{itemize}
+    \item Transiente da tensão de entrada do 0 V até a tensão de operação máxima e de volta ao 0 V. Com esse cenário, avalia-se quanto de tensão na entrada é preciso para que o conversor forneça a saída regulada na tensão desejada.
+    \item Chaveamento entre desligado e ligado. Nesse cenário, avalia-se a resposta do conversor ao degrau, ou seja, o transiente de quanto o conversor é ligado, o que se traduz em um baixo tempo de resposta, ou seja, o tempo necessário para que a tensão na saída esteja estabilizada é pequeno.
+    \item Alterações na carga, durante a simulação, já com o circuito no estado estável, mais uma carga será inserida. Nesse cenário, estamos interessados na resposta do conversor a essa situação, quanto tempo é necessário para restaurar a operação normal e o quanto de queda de tensão está presente. 
+\end{itemize}
+
 
 \section{Topologia discreta}
 
 \subsection*{LM2735}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_stock.png}}
+\captionof{figure}{Circuito do LM2735 em condições normais}
+\label{fig:lm2735_stock}
+\end{minipage}
+
+O LM2735 \cite{lm2735_datasheet} é um conversor DC-DC fabricado pela Texas Instruments, que pode ser usado na configuração Boost ou SEPIC. É um conversor com um \textit{pinout} relativamente pequeno, pois muitas das suas funções são internas e fixas, conforme definido pelo fabricante. Alguns exemplos são o \textit{soft-start} interno e fixo em 4 ms, compensação interna, a frequência de chaveamento fixa em 520 kHz, todas essas funcionalidades internas e fixas poupam a existência de pinos de configuração e ajuda a diminuir o espaço consumido pelo circuito integrado dentro da PCB. O conversor conta ainda com a presença um pino de \textit{Enable} ativo alto. A tabela \ref{lm2735_specs_table} mostra as especificações de operação.
+
+\input{tabelas/lm2735_specs.tex}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A.png}}
+\captionof{figure}{Resposta do LM2735 em condições normais}
+\label{fig:lm2735_traces_stock}
+\end{minipage}
+
+Um ponto fundamental do regulador chaveado frente ao regulador linear é a eficiência energética. Um regulador chaveado consegue chegar a eficiência de potência da ordem de 90\%. A eficiência é importantíssima no cubesat, que está em um ambiente com fonte limitada de energia, fonte essa que também é intermitente: depende se o satélite está em eclipse ou não.
+
+Analisando a resposta da figura \ref{fig:lm2735_traces_stock}, essa configuração \ref{fig:lm2735_stock} atingiu uma eficiência de 87.6\%, com aproximadamente 4.5 W sendo entregues para a bateria. A tensão $V_{pp}$ de ripple na saída ficou em 12.84 mV, dentro da faixa de valores esperada. Vale ressaltar que esse resultado considera a frequência fixa de chaveamento do conversor de 520 kHz, porém a Texas em seu datasheet explicita que esse valor é válido para $T_{J}$ = 25 ºC, para a faixa de temperaturas de operação que é $T_{J}$ entre -40 ºC e 125 ºC, essa frequência pode oscilar entre 360 e 680 kHz. Portanto, o fato do modelo SPICE não simular os efeitos da temperatura no circuito coloca essa limitação.
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_transient.png}}
+\captionof{figure}{Circuito do LM2735 em transiente de tensão}
+\label{fig:lm2735_transient}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_transient.png}}
+\captionof{figure}{Resposta do LM2735 em transiente de tensão}
+\label{fig:lm2735_traces_transient}
+\end{minipage}
+
+A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o transiente de tensão aplicado, para isso substituimos o painel solar por uma fonte de tensão do tipo PULSE, que foi programada para executar duas rampas: uma de 0 até 7 V em 0.5 s e depois a rampa de descida até 0 V nos mesmos 0.5 s. Observa-se que quando a tensão de entrada ultrapassa a tensão mínima de entrada do conversor que é de 2.7 V, já é possível obter uma tensão de saída próxima do alvo de 5 V, porém o ripple nessa saída é bem maior do que nas outras situações: 112.37 mV, entretanto, apesar de ser o maior observado, continua dentro do limite estabelecido pelo datasheet. Esse ripple vai diminuindo a medida que a tensão na entrada aumenta para a tensão esperada do MPP do painel solar e a medida que a tensão de entrada ultrapassa o esperado para o painel, a saída se satura em aproximadamente 5.1 V.
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.9]{imagens/LM2735/LM2735_switch.png}}
+\captionof{figure}{Circuito do LM2735 com chaveamento}
+\label{fig:lm2735_switch}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_switch.png}}
+\captionof{figure}{Resposta do LM2735 com chaveamento}
+\label{fig:lm2735_traces_switch}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.75]{imagens/LM2735/LM2735_current.png}}
+\captionof{figure}{Circuito do LM2735 com alteração na carga}
+\label{fig:lm2735_current}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_current.png}}
+\captionof{figure}{Resposta do LM2735 com alteração na carga}
+\label{fig:lm2735_traces_current}
+\end{minipage}
+
+As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 5 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 256 ms após o chaveamento da segunda carga, tempo bastante parecido com o chaveamento entre ligado e desligado (única carga de 5 $\Omega$) que foi de 290 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.48 mV para 36.36 mV, mais do que o dobro da tensão com apenas uma carga.
+
 \subsection*{LT8364}
+
+O LT8364 \cite{lt8364_datasheet} é um circuito integrado da Analog Devices que possui uma complexidade maior, pois entrega um maior número de parâmetros programáveis para o projetista. Um dos diferenciais são os 5 modos de operação selecionáveis atráves do pino \textit{Mode}, porém esse pino não é simulado no modelo disponibilizado, estando dessa forma no GND - modo \textit{Burst}, o que também deve nos entregar a menor tensão de ripple. De qua
+Além disso, a frequência de chaveamento pode ser programada com o pino $R_{t}$, variando entre 300 kHz e 2 MHz. Para as simulações subsequentes, usaremos $R_{t}$ = 20 k$\Omega$, programando para operação com 2 MHz.
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_stock.png}}
+\captionof{figure}{Circuito do LT8364 em condições normais}
+\label{fig:lt8364_stock}
+\end{minipage}
+
+\input{tabelas/lt8364_specs.tex}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_transient.png}}
+\captionof{figure}{Circuito do LT8364 em transiente de tensão}
+\label{fig:lt8364_transient}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/LT8364/LT8364_switch.png}}
+\captionof{figure}{Circuito do LT8364 com chaveamento}
+\label{fig:lt8364_switch}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_current.png}}
+\captionof{figure}{Circuito do LT8364 com alteração na carga}
+\label{fig:lt8364_current}
+\end{minipage}
+
+
 \subsection*{LT8611}
+
+
 
 \section{Controlador Integrado}
 
-Para a solução integrada, utilizaremos de referência o SPV1040 da STMicroelectronics, o mesmo utilizado na missão ESTCube-1.
 \subsection*{SPV1040}
+
+Para a solução integrada, utilizaremos de referência o SPV1040 \cite{spv1040_datasheet} da ST Microelectronics, o mesmo utilizado na missão ESTCube-1. 
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.8]{imagens/SPV1040/SPV1040_block.png}}
+\captionof{figure}{SPV1040: Diagrama de blocos}
+\label{fig:spv1040_block}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/SPV1040/SPV1040_sample.png}}
+\captionof{figure}{SPV1040 configurado para 3.8 V @ 500 mA}
+\label{fig:spv1040_sample}
+\end{minipage}

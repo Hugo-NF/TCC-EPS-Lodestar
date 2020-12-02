@@ -52,6 +52,8 @@ Baseado nessa arquitetura e nas especificações do padrão Cubesat, a figura \r
 \label{fig:block_diagram}
 \end{minipage}
 
+Com essa arquitetura definida, o trabalho de pesquisa e simulação dos componentes foi dividido entre eu e outro aluno do laboratório LODESTAR, Luiz Antônio, que está trabalhando com a parte da regulação das linhas de tensão a partir da bateria, dessa forma estamos abarcando todos os requisitos propostos inicialmente para o EPS.
+
 \subsection*{Tarefas e \textit{Power Budget}}
 
 Após levantar os consumos de cada módulo, o próximo passo é construir um \textit{power budget} baseado nas tarefas que o \textit{cubesat} precisa realizar ao longo de um ciclo.  
@@ -76,23 +78,23 @@ As seguintes premissas foram consideradas na construção dessa tabela:
 \end{enumerate}
 
 
-Na coluna \textit{Source} é colocado de onde é vieram as informações a respeito do módulo, onde aparece a GOMSpace é uma fabricante e fornecedora de nanossatélites e componentes em vários mercados, além de ser uma empresa referência no mercado, com vários cases de sucesso, o laboratório LODESTAR tem intenção de compra com a GOMSpace do nanossatélite do primeiro lançamento da missão. O Abacus é um computador de bordo (OBC) fabricado pela Gauss Srl e utilizado para testes no LODESTAR, por ser um OBC multi-propósito ele tem um consumo maior do que os computadores da GOMSpace, o que pode vir a aumentar o nosso saldo no Power Budget. O atuador magnético \cite{unb_mag_actuator} e o ADCS \textit{TODO: ACHAR REFERENCIA} utilizados de referência são de trabalhos desenvolvidos por alunos do laboratório. 
+Na coluna \textit{Source} é colocado de onde é vieram as informações a respeito do módulo, onde aparece a GOMSpace é uma fabricante e fornecedora de nanossatélites e componentes em vários mercados, além de ser uma empresa referência no mercado, com vários cases de sucesso, o laboratório LODESTAR tem intenção de compra com a GOMSpace do nanossatélite do primeiro lançamento da missão. O Abacus é um computador de bordo (OBC) fabricado pela Gauss Srl e utilizado para testes no LODESTAR, por ser um OBC multi-propósito ele tem um consumo maior do que os computadores da GOMSpace, o que pode vir a aumentar o nosso saldo no Power Budget. O atuador magnético \cite{unb_mag_actuator} e o ADCS \cite{carol_adcs} utilizados de referência são de trabalhos desenvolvidos por alunos do laboratório. 
 
 
 Com esse \textit{power budget}, a menor célular solar (1U) da GOMSPACE é usada como referência. Essa célula solar é capaz de prover até \SI{27}{\watt}. Note que usada apenas essa célula, o \textit{budget} ainda fica com um saldo negativo, o que significa que estamos consumindo menos energia do que a que conseguimos adquirir, porém essa margem ainda é pequena. Portanto, mais células solares devem ser usadas para prover uma quantidade segura de energia.
 
-Conhecer os consumos dos módulos permitiu calcular quantas baterias, aqui estamos utilzando os modelos 18650 como referência, para manter o nanossatelite alimentado durante um ciclo. Os modelos de baterias 18650 são largamente utilizados nos EPS pela padronização de tamanho e segurança. No modelo referência da GOMSPACE temos \SI{2600}{\milli\ampere\hour}, ou seja, para conseguir suprir o consumo de \SI{6650}{\milli\ampere\hour}, pelo menos três dessas baterias.
+Conhecer os consumos dos módulos permitiu calcular quantas baterias, aqui estamos utilzando os modelos 18650 como referência, para manter o nanossatelite alimentado durante um ciclo. Os modelos de baterias 18650 são largamente utilizados nos EPS pela padronização de tamanho e segurança. No modelo referência da GOMSpace temos \SI{2600}{\milli\ampere\hour}, ou seja, para conseguir suprir o consumo de \SI{6650}{\milli\ampere\hour}, pelo menos três dessas baterias.
 
 \section{Circuito de carga da bateria}
 
-Uma das tarefas cruciais para o projeto do circuito de carga da bateria é escolher o conversor DC/DC que fará a interface entre o painel solar e a bateria, o que nos permite aplicar a técnica de MPPT. Para cumprir essa tarefa, foi realizada uma busca pelos conversores disponíveis comercialmente e abaixo apresentaremos os resultados e as métricas utilizadas para escolha.
+Uma das tarefas cruciais para o projeto do circuito de carga da bateria é escolher o conversor DC/DC que fará a interface entre o painel solar e a bateria, o que nos permite aplicar a técnica de MPPT. Para cumprir essa tarefa, foi realizada uma busca pelos conversores disponíveis comercialmente e na seção de resultados apresentaremos os resultados e as métricas utilizadas para escolha. 
 
-
+Além do conversor DC/DC, para completar um circuito minímo para implementar o MPPT, precisamos ainda definir um microcontrolador e de algum circuito capaz de sensoriar a tensão e corrente extraída da bateria. Para esses componentes, existiram dificuldades no campo da simulação, pois não encontramos nenhum simulador que seja capaz de fazer uma simulação hibrída entre circuitos analógicos e digitais. Nesse ponto, o modelo SPICE, que é voltado para a simulação de circuitos analógicos, trouxe uma limitação muito grande, pois os microcontroladores são circuitos integrados bastante complexos, com diversas interfaces, o que impossibilita a construção de um modelo SPICE para esses chips.
 
 
 \section{Solução com controlador integrado}
 
-O uso de um chip independente para a implentação do MPPT traz muitas vantagens com relação a implementação tradicional com componentes discretos. A primeira delas é que isso torna o sistema MPPT complementamente autônomo, isso permite que o aquisição de energia continue mesmo com o esgotamento total das baterias. A segunda é por dispensar recursos do microcontrolador, seja por livrar recursos de algum que desempenha várias funcionalidade ou dispensar um microcontrolador exclusivo para essa tarefa. A terceira está relacionada com a segunda, que é o \textit{footprint} bem reduzido no projeto final da PCB, pois estamos dispensando vários componentes discretos.
+O uso de um chip independente para a implentação do MPPT traz muitas vantagens com relação a implementação tradicional com componentes discretos. A primeira delas é que isso torna o sistema MPPT complementamente autônomo, isso permite que o aquisição de energia continue mesmo com o esgotamento total das baterias. A segunda é por dispensar recursos do microcontrolador, seja por livrar recursos de algum que desempenha várias funcionalidade ou dispensar um microcontrolador exclusivo para essa tarefa. A terceira está relacionada com a segunda, que é o \textit{footprint} bem reduzido no projeto final da PCB, pois estamos dispensando vários componentes discretos. Para esses controladores, o problema da ausência de modelos SPICE se repete, da mesma forma que ocorreu com os microcontroladores.
 
 
 
