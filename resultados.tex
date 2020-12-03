@@ -121,47 +121,47 @@ A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o tran
 
 As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 5 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 256 ms após o chaveamento da segunda carga, tempo bastante parecido com o chaveamento entre ligado e desligado (única carga de 5 $\Omega$) que foi de 290 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.48 mV para 36.36 mV, mais do que o dobro da tensão com apenas uma carga.
 
-\subsection*{LT8364}
+% \subsection*{LT8364}
 
-O LT8364 \cite{lt8364_datasheet} é um circuito integrado da Analog Devices que possui uma complexidade maior, pois entrega um maior número de parâmetros programáveis para o projetista. Um dos diferenciais são os 5 modos de operação selecionáveis atráves do pino \textit{Mode}, porém esse pino não é simulado no modelo disponibilizado, estando dessa forma no GND - modo \textit{Burst}, o que também deve nos entregar a menor tensão de ripple. De qua
-Além disso, a frequência de chaveamento pode ser programada com o pino $R_{t}$, variando entre 300 kHz e 2 MHz. Para as simulações subsequentes, usaremos $R_{t}$ = 20 k$\Omega$, programando para operação com 2 MHz.
+% O LT8364 \cite{lt8364_datasheet} é um circuito integrado da Analog Devices que possui uma complexidade maior, pois entrega um maior número de parâmetros programáveis para o projetista. Um dos diferenciais são os 5 modos de operação selecionáveis atráves do pino \textit{Mode}, porém esse pino não é simulado no modelo disponibilizado, estando dessa forma no GND - modo \textit{Burst}, o que também deve nos entregar a menor tensão de ripple. De qua
+% Além disso, a frequência de chaveamento pode ser programada com o pino $R_{t}$, variando entre 300 kHz e 2 MHz. Para as simulações subsequentes, usaremos $R_{t}$ = 20 k$\Omega$, programando para operação com 2 MHz.
 
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_stock.png}}
-\captionof{figure}{Circuito do LT8364 em condições normais}
-\label{fig:lt8364_stock}
-\end{minipage}
+% \noindent
+% \begin{minipage}{\linewidth}
+% \makebox[\linewidth]{
+%     \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_stock.png}}
+% \captionof{figure}{Circuito do LT8364 em condições normais}
+% \label{fig:lt8364_stock}
+% \end{minipage}
 
-\input{tabelas/lt8364_specs.tex}
+% \input{tabelas/lt8364_specs.tex}
 
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_transient.png}}
-\captionof{figure}{Circuito do LT8364 em transiente de tensão}
-\label{fig:lt8364_transient}
-\end{minipage}
+% \noindent
+% \begin{minipage}{\linewidth}
+% \makebox[\linewidth]{
+%     \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_transient.png}}
+% \captionof{figure}{Circuito do LT8364 em transiente de tensão}
+% \label{fig:lt8364_transient}
+% \end{minipage}
 
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/LT8364/LT8364_switch.png}}
-\captionof{figure}{Circuito do LT8364 com chaveamento}
-\label{fig:lt8364_switch}
-\end{minipage}
+% \noindent
+% \begin{minipage}{\linewidth}
+% \makebox[\linewidth]{
+%     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/LT8364/LT8364_switch.png}}
+% \captionof{figure}{Circuito do LT8364 com chaveamento}
+% \label{fig:lt8364_switch}
+% \end{minipage}
 
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_current.png}}
-\captionof{figure}{Circuito do LT8364 com alteração na carga}
-\label{fig:lt8364_current}
-\end{minipage}
+% \noindent
+% \begin{minipage}{\linewidth}
+% \makebox[\linewidth]{
+%     \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LT8364/LT8364_current.png}}
+% \captionof{figure}{Circuito do LT8364 com alteração na carga}
+% \label{fig:lt8364_current}
+% \end{minipage}
 
 
-\subsection*{LT8611}
+% \subsection*{LT8611}
 
 
 
@@ -170,6 +170,22 @@ Além disso, a frequência de chaveamento pode ser programada com o pino $R_{t}$
 \subsection*{SPV1040}
 
 Para a solução integrada, utilizaremos de referência o SPV1040 \cite{spv1040_datasheet} da ST Microelectronics, o mesmo utilizado na missão ESTCube-1. 
+
+Conforme explicado no capítulo \ref{desenvolvimento}, o SPV1040 é um controlador completo, dessa forma, o \textit{Duty Cycle} é internamente controlado pelo algoritmo de MPPT, o que no caso desse componente é o algoritmo Pertuba e Observa. A tensão de entrada $V_{in}$ opera entre os valores de 0.3 e 5.5 V, o que suficiente para o painel solar escolhido e a frequência de chaveamento é fixa em 100 kHz. Além de já fornecer a saída regulada, possui também proteção contra superaquecimento e sobrecorrente. Dependendo da configuração, o datasheet mostra que a eficiência dele pode chegar em até 95\%, sendo extremamente indicado para essas situação onde é preciso lidar com tensões de entrada baixas. 
+
+O dispositivo fornece saída regulada
+tensão e corrente detectando a tensão $V_{CTRL}$ de \textit{feedback} do divisor de resistor externo, que define a tensão na bateria, e pela queda de tensão no resistor de detecção externa $R_{S}$, respectivamente.
+
+Existem 5 modos de operação possíveis para o controlador:
+\begin{enumerate}
+    \item Start-up: Quando a tensão de saída $V_{out}$ está acima 0.8 e abaixo 2 V, o dispositivo entra no modo start-up, pois nessa condição a polarização dos MOSFET's de compensação (\textit{BIAS}) ainda não é garantida. Em tais condições, o transistor canal N é forçado a ligar com um duty cycle fixo.
+    \item MPPT: Uma vez que o dispositivo saiu do modo start-up, o dispositivo entra no modo MPPT, que utiliza o algoritmo Perturba e Observa.
+    \item Shutdown: Modo com o menor consumo energético possível, ativado quando o pino XSHUT está em LOW.
+    \item Burst: O modo burst é a transição para o modo sleep-in, o conversor DC-DC começa a operar em frequências cada vez mais lentas. O modo burst atua quando a tensão de saída atinge a tensão da bateria, o pino MPP-SET abaixa de 0.45V ou a corrente de saída atinge o seu valor máximo.
+    \item Sleep-in: Nesse modo, nenhuma corrente é fornecida para a carga e esse estado permanece até que a condição que colocou o dispositivo em Sleep-in não esteja mais presente.
+\end{enumerate}
+
+A figura \ref{fig:spv1040_block} mostra o diagrama de blocos do dispositivo e a figura \ref{fig:spv1040_sample} mostra o esquemático do circuito necessário para uma saída de 3.8 V com 500 mA, o equivalente para uma bateria de referência da GOMSpace.
 
 \noindent
 \begin{minipage}{\linewidth}
