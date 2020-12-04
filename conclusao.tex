@@ -9,7 +9,17 @@ Na revisão téorica, abordou-se os principais conceitos para o entendimento da 
 
 O desenvolvimento inicia apresentando um \textit{background} de missões anteriores de quatro nanossatélites distintos e quais soluções eram utilizadas para os módulos EPS. Após isso, é mostrado o levantamento que foi realizado em termos dos \textit{payloads}, os seus consumos e tarefas desempenhadas por eles e como que esse consumo energético está ligado ao dimensionamento do EPS.
 
-A proposta foi dividida em duas topologias, uma com os componentes discretos, na qual foram simulados e comparados vários modelos de conversores DC-DC, seguindo os modelos de referência apresentados para placa solar, baterias e EPS. O primeiro deles o LM2735 com a proposta de ser uma solução mais simples, com menos configurações, menos espaço de PCB, porém com bastante eficiência. O LT8364 como uma solução mais maleável em termos de configurações. Para a segunda topologia com o controlador MPPT, foi apresentado o SPV1040, o mesmo utilizado na missão ESTCube-1, as suas especificações, um circuito projetado para o cenário proposto conforme explicado nos modelos de referência, porém que não foi possível executar simulações pela ausência de modelos SPICE para o componente.
+A proposta foi dividida em duas topologias, uma com os componentes discretos, a qual foi simulada e construída, de acordo com os modelos de referência apresentados para placa solar, baterias e EPS, com o conversor DC-DC LM2735Y da Texas Instruments, que tem as vantagens de ser um conversor mais simples, com menos configurações, ocupando pouco espaço de PCB, contudo atingindo uma alta eficiência. Para a segunda topologia com o controlador MPPT, foi apresentado o SPV1040, o mesmo utilizado na missão ESTCube-1, as suas especificações, modos de operação e um circuito projetado para o cenário proposto conforme explicado nos modelos de referência, porém que não foi possível executar simulações pela ausência de modelos SPICE para o componente.
+
+\input{tabelas/lm2735_bill.tex}
+
+\input{tabelas/spv1040_bill.tex}
+
+No fim, ambas as topologias são capazes de atender os aspectos técnicos necessários para o EPS, conforme observado na tabela \ref{comparison_specs_table} que coloca lado a lado as especificações de ambos os dispositivos, em seguida, as tabelas \ref{lm2735_bom_table} e \ref{spv1040_specs_table} mostram uma possível lista de materiais requeridos por cada uma das implementações.
+
+\input{tabelas/specs_comparison.tex}
+
+Portanto, a topologia com o controlador MPPT é a mais recomendada, visando os critérios de um menor número de componentes, um espaço menor de espaço de PCB e um menor custo de implementação.
 
 \subsection*{Recomendações e Próximos Passos}
 
