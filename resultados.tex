@@ -27,7 +27,7 @@ No gráfico \ref{fig:model_pv_traces}, cada uma das curvas dispostas representam
 
 Para efeitos de simplificação dos esquemáticos, o modelo apresentado estará representado dentro de um modelo customizado no simulador LTSpice chamado de Model\_PV.
 
-Para as baterias, o nosso modelo de referência \cite{battery_gomspace_datasheet} é a bateria Ion-lítio NanoPower 18650 de 2600 mAh. Porém, na questão das baterias, existe uma complexidade a mais, conforme vimos no histórico das missões anteriores, a quantidade e arranjo das células podem variar e isso afeta a condição de carregamento das baterias, por esse motivo, as simulações utilizarão um conversor Buck para a situação em que a tensão de carregamento é menor do que a saída do painel solar e conversores SEPIC para o caso em que a tensão de carregamento bem próxima ou maior do que a tensão do painel. Como referência nas simulações, estaremos utilizando, a tensão de carregamento do EPS da GOMSpace, modelo NanoPower P31u \cite{eps_gomspace_datasheet}.
+Para as baterias, o nosso modelo de referência \cite{battery_gomspace_datasheet} é a bateria Ion-lítio NanoPower 18650 de 2600 mAh. Porém, na questão das baterias, existe uma complexidade a mais, conforme vimos no histórico das missões anteriores, a quantidade e arranjo das células podem variar e isso afeta a condição de carregamento das baterias, por esse motivo, como referência nas simulações, estaremos padronizando a tensão de carregamento na mesma utilizada pelo EPS da GOMSpace, modelo NanoPower P31u \cite{eps_gomspace_datasheet}, que é de 5V.
 
 Para os conversores e controladores, que são os alvos do trabalho, estaremos utilizando os modelos SPICE, fornecidos pelas próprias fabricantes dos chips, sem nenhuma alteração ou customização. 
 
@@ -35,7 +35,7 @@ Para os conversores e controladores, que são os alvos do trabalho, estaremos ut
 
 Para cada conversor, além do cenário em operação normal, serão apresentados os seguintes cenários:
 \begin{itemize}
-    \item Transiente da tensão de entrada de 0V até a tensão de operação máxima e de volta a 0V. Com esse cenário, avalia-se quanto de tensão na entrada é preciso para que o conversor forneça a saída regulada na tensão desejada.
+    \item Transiente da tensão de entrada de 0V até a tensão de operação máxima. Com esse cenário, avalia-se quanto de tensão na entrada é preciso para que o conversor forneça a saída regulada na tensão desejada.
     \item Chaveamento entre desligado e ligado. Nesse cenário, avalia-se a resposta do conversor ao degrau, ou seja, o transiente de quanto o conversor é ligado, o que se traduz em um baixo tempo de resposta, ou seja, o tempo necessário para que a tensão na saída esteja estabilizada é pequeno.
     \item Alterações na carga durante a simulação já com o circuito no estado estável. Uma carga extra será inserida no meio da simulação. Nesse cenário, estamos interessados na resposta do conversor a essa situação. Quanto tempo é necessário para restaurar a operação normal e o quanto de queda de tensão está presente. 
 \end{itemize}
@@ -48,7 +48,7 @@ Para cada conversor, além do cenário em operação normal, serão apresentados
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_stock.png}}
+    \includegraphics[keepaspectratio=true, scale=0.75]{imagens/LM2735/LM2735_stock_05.png}}
 \captionof{figure}{Circuito do LM2735 em condições normais}
 \label{fig:lm2735_stock}
 \end{minipage}
@@ -60,23 +60,20 @@ O LM2735 \cite{lm2735_datasheet} é um conversor DC-DC fabricado pela Texas Inst
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A.png}}
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@05A.png}}
 \captionof{figure}{Resposta do LM2735 em condições normais}
 \label{fig:lm2735_traces_stock}
 \end{minipage}
 
 Um ponto fundamental do regulador chaveado frente ao regulador linear é a eficiência energética. Um regulador chaveado consegue chegar a eficiência de potência da ordem de 90\%. A eficiência é importantíssima no cubesat, que está em um ambiente com fonte limitada de energia, fonte essa que também é intermitente: depende se o satélite está em eclipse ou não.
 
-Analisando a resposta da figura \ref{fig:lm2735_traces_stock}, essa configuração \ref{fig:lm2735_stock} atingiu uma eficiência de 87.6\%, 
-%TODO: Rever esta afirmação
-com aproximadamente 4.5 W sendo entregues para a bateria. 
-%
-A tensão $V_{pp}$ de ripple na saída ficou em 12.84 mV, dentro da faixa de valores esperada. Vale ressaltar que esse resultado considera a frequência fixa de chaveamento do conversor de 520 kHz, porém a Texas em seu datasheet explicita que esse valor é válido para $T_{J}$ = 25 ºC, para a faixa de temperaturas de operação que é $T_{J}$ entre -40 ºC e 125 ºC, essa frequência pode oscilar entre 360 e 680 kHz. Portanto, o fato do modelo SPICE não simular os efeitos da temperatura no circuito coloca essa limitação.
+Analisando a resposta da figura \ref{fig:lm2735_traces_stock}, essa configuração \ref{fig:lm2735_stock} atingiu uma eficiência de 87.8\%, com aproximadamente 2.115 W sendo entregues para a carga.
+A tensão $V_{pp}$ de ripple na saída ficou em 12.64 mV, dentro da faixa de valores esperada. Vale ressaltar que esse resultado considera a frequência fixa de chaveamento do conversor de 520 kHz, porém a Texas em seu datasheet explicita que esse valor é válido para $T_{J}$ = 25 ºC, para a faixa de temperaturas de operação que é $T_{J}$ entre -40 ºC e 125 ºC, essa frequência pode oscilar entre 360 e 680 kHz. Portanto, o fato do modelo SPICE não simular os efeitos da temperatura no circuito coloca essa limitação.
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_transient.png}}
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_transient_05.png}}
 \captionof{figure}{Circuito do LM2735 em transiente de tensão}
 \label{fig:lm2735_transient}
 \end{minipage}
@@ -84,17 +81,17 @@ A tensão $V_{pp}$ de ripple na saída ficou em 12.84 mV, dentro da faixa de val
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_transient.png}}
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@05A_transient.png}}
 \captionof{figure}{Resposta do LM2735 em transiente de tensão}
 \label{fig:lm2735_traces_transient}
 \end{minipage}
 
-A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o transiente de tensão aplicado, para isso substituimos o painel solar por uma fonte de tensão do tipo PULSE, que foi programada para executar duas rampas: uma de 0 até 7 V em 0.5 s e depois a rampa de descida até 0 V nos mesmos 0.5 s. Observa-se que quando a tensão de entrada ultrapassa a tensão mínima de entrada do conversor que é de 2.7 V, já é possível obter uma tensão de saída próxima do alvo de 5 V, porém o ripple nessa saída é bem maior do que nas outras situações: 112.37 mV, entretanto, apesar de ser o maior observado, continua dentro do limite estabelecido pelo datasheet. Esse ripple vai diminuindo a medida que a tensão na entrada aumenta para a tensão esperada do ponto de máxima potência do painel solar e a medida que a tensão de entrada ultrapassa o esperado para o painel, a saída se satura em aproximadamente 5.1 V.
+A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o transiente de tensão aplicado, para isso substituimos o painel solar por uma fonte de tensão do tipo PULSE, que foi programada para executar uma rampa de 0 até 7 V em 1 s. Observa-se que quando a tensão de entrada ultrapassa o valor de aproximadamente 1.3V já é possível observar uma tensão na saída, porém com uma tensão de \textit{ripple} bastante elevada de 330.14 mV, fora da tolerância. Quando a tensão mínima de entrada do conversor (2.7 V) é atingida, é possível obter uma tensão de saída próxima do alvo de 5 V e com a tensão de \textit{ripple} dentro da tolerância de 5\% do valor da saída, com 115.14 mV. Esse ripple vai diminuindo a medida que a tensão na entrada aumenta para a tensão esperada do ponto de máxima potência do painel solar e a para as tensões de entrada superiores as esperadas para o painel, a saída se satura em aproximadamente 5.1 V.
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.9]{imagens/LM2735/LM2735_switch.png}}
+    \includegraphics[keepaspectratio=true, scale=0.75]{imagens/LM2735/LM2735_switch_05.png}}
 \captionof{figure}{Circuito do LM2735 com chaveamento}
 \label{fig:lm2735_switch}
 \end{minipage}
@@ -102,15 +99,7 @@ A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o tran
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_switch.png}}
-\captionof{figure}{Resposta do LM2735 com chaveamento}
-\label{fig:lm2735_traces_switch}
-\end{minipage}
-
-\noindent
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.75]{imagens/LM2735/LM2735_current.png}}
+    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/LM2735/LM2735_current_05.png}}
 \captionof{figure}{Circuito do LM2735 com alteração na carga}
 \label{fig:lm2735_current}
 \end{minipage}
@@ -118,14 +107,20 @@ A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o tran
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@09A_current.png}}
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@05A_current.png}}
 \captionof{figure}{Resposta do LM2735 com alteração na carga}
 \label{fig:lm2735_traces_current}
 \end{minipage}
 
-% TODO : Passar a figura 4.8 para depois desse parágrafo
-As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 5 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 0.256 ms após o chaveamento da segunda carga, tempo bastante parecido com o chaveamento entre ligado e desligado (única carga de 5 $\Omega$) que foi de 0.290 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.48 mV para 36.36 mV, mais do que o dobro da tensão com apenas uma carga.
+As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 5 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 0.155 ms após o chaveamento da segunda carga, com uma queda de tensão na saída de 0.32V. O tempo de resposta foi bastante parecido com o chaveamento entre ligado e desligado (única carga de 12 $\Omega$) que foi de 0.191 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.05 mV para 28.31 mV, mais do que o dobro da tensão com apenas uma carga.
 
+\noindent
+\begin{minipage}{\linewidth}
+\makebox[\linewidth]{
+    \includegraphics[keepaspectratio=true, scale=1]{imagens/LM2735/5V@05A_switch.png}}
+\captionof{figure}{Resposta do LM2735 com chaveamento}
+\label{fig:lm2735_traces_switch}
+\end{minipage}
 
 \section{Controlador Integrado}
 
@@ -159,14 +154,7 @@ A figura \ref{fig:spv1040_block} mostra o diagrama de blocos do dispositivo e a 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.55]{imagens/SPV1040/SPV1040_sample.png}}
+    \includegraphics[keepaspectratio=true, scale=0.75]{imagens/SPV1040/SPV1040_sample.png}}
 \captionof{figure}{SPV1040 configurado para 3.8 V @ 500 mA}
 \label{fig:spv1040_sample}
 \end{minipage}
-
-No fim, ambas as topologias são capazes de atender os aspectos técnicos necessários para o EPS, a tabela \ref{tab:specs_comparison} coloca lado a lado as especificações de ambos os dispositivos. 
-
-
-
-
-Entretanto, 
