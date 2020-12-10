@@ -17,7 +17,7 @@ Normalmente, a classificação mais utilizada para satélites é com relação a
 
 \section{\textit{Cubesat}}\label{cubesat_revision}
 
-O padrão \textit{Cubesat} foi um dos grandes responsáveis pela popularização da categoria de nanossatélites, como podemos ver no gráfico abaixo, que mostra o número de lançamentos desse tipo por ano.\cite{cubesats_cgee}.
+O padrão \textit{Cubesat} foi um dos grandes responsáveis pela popularização da categoria de nanossatélites, como se vê no gráfico abaixo, que mostra o número de lançamentos desse tipo por ano.\cite{cubesats_cgee}.
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -35,9 +35,9 @@ Normalmente, as missões com \textit{Cubesats} tem um risco técnico mais elevad
 
 As principais características dos \textit{Cubesats} são as seguintes:
 \begin{itemize}
-    \item compostos por unidades cúbicas padronizadas (1U) de tamanho 10x10x10 cm, conforme mostrado na figura \ref{cubesat_configs_fig};
-    \item uso de sistemas padronizados de ejeção em órbita, denominados, P-POD (do inglês, \textit{Poly Picosatellite Orbital Deployer}) ou SSPL (do inglês, \textit{Space Shuttle Picosatellite Launcher}). Esses sistemas são capazes de liberar diversos satélites pela mesma interface;
-    \item componentes COTS nos sistemas de bordo.
+    \item Compostos por unidades cúbicas padronizadas (1U) de tamanho 10x10x10 cm, conforme mostrado na figura \ref{cubesat_configs_fig};
+    \item Uso de sistemas padronizados de ejeção em órbita, denominados, P-POD (do inglês, \textit{Poly Picosatellite Orbital Deployer}) ou SSPL (do inglês, \textit{Space Shuttle Picosatellite Launcher}). Esses sistemas são capazes de liberar diversos satélites pela mesma interface;
+    \item Componentes COTS nos sistemas de bordo.
 \end{itemize}
 
 \noindent
@@ -48,12 +48,12 @@ As principais características dos \textit{Cubesats} são as seguintes:
 \label{cubesat_configs_fig}
 \end{minipage}
 
-O padrão é descrito em um documento de domínio público\cite{cubesat_specs_rev13}, onde especifica-se que uma unidade \textit{Cubesat} ou 1U, tem um volume de 1 litro e carga útil de até 1,3 kg, podendo combinar várias unidades dessas para compor satélites maiores (2U, 3U, 6U ou 12U, por exemplo).
+O padrão é descrito em um documento de domínio público\cite{cubesat_specs_rev13}, onde se especifica que uma unidade \textit{Cubesat} ou 1U, tem um volume de 1 litro e carga útil de até 1,3 kg, podendo combinar várias unidades dessas para compor satélites maiores (2U, 3U, 6U ou 12U, por exemplo).
 
 Quanto aos requisitos elétricos, o padrão apresenta dois requisitos extremamente importantes que são o \textit{Deployment Switch} e o pino \textit{Remove Before Flight} (RBF).
 \begin{enumerate}
     \item O \textit{Deployment Switch} é uma chave que deve desconectar eletricamente todos os subsistemas, sem exceções, do sistema de potência.
-    \item Essa chave deve atuar durante todo o tempo que o CubeSat estiver acoplado no P-POD, e esse sinal é recebido dos trilhos do P-POD, conforme figura X.
+    \item Essa chave deve atuar durante todo o tempo que o CubeSat estiver acoplado no P-POD, e esse sinal é recebido dos trilhos do P-POD, conforme figura \ref{cubesat1U_dimensions_fig}.
     \item Por sua vez, o RBF, é um pino que deve cortar toda a alimentação do satélite uma vez que estiver inserido. Ele será removido após o encaixe na base de lançamento P-POD e não deve avançar mais do que 6.5 mm além dos trilhos.
 \end{enumerate}
 
@@ -70,10 +70,10 @@ Por esses e outros aspectos, os \textit{Cubesats} trouxeram um aspecto inovador 
 \section{Paineis Solares}
 Os painéis solares, ou PV\footnote{Photovoltaics - conforme literatura em inglês sobre o assunto}, são dispositivos que utilizam o efeito fotovoltaico para produzir energia elétrica. Nas células solares, a diferença de potencial surge quando um elétron recebe energia suficiente para passar da camada de valência para a camada de condução do material semicondutor.
 
-Diferente dos metais, os semicondutores possuem a camada de valência completamente cheia e a camada de condução completamente vazia, e o salto "\textit{gap}" entre as duas camadas é de 1 eV (elétron-volt). Caso o fóton incidente na placa forneça mais energia do que o necessário para o elétron atravessar o salto, o excesso se transforma em calor, em um efeito conhecido por termalização.
+Diferente dos metais, os semicondutores possuem a camada de valência completamente cheia e a camada de condução completamente vazia, e o salto "\textit{gap}" entre as duas camadas é de 1 eV (elétron-volt). Caso o fóton incidente na placa forneça mais energia do que o necessário para o elétron atravessar o salto, o excesso se transforma em calor, em um efeito conhecido como termalização.
 
 \subsection*{Curva I-V}
-A curva I-V\footnote{Curva Corrente x Tensão} é uma das caracteristicas mais importantes quando projeta-se algo com painel solar, pois é necessário conhecer e realizar a previsão de parâmetros importantes como a irradiação solar, temperatura e carga que será atendida. A maioria dos métodos presentes na literatura utiliza a curva I-V para o cálculo desses parâmetros ou então outros métodos de natureza empírica, a seguir vamos usar essa técnica\cite{pv_datasheet} para montar um modelo para as simulações.
+A curva I-V\footnote{Curva Corrente x Tensão} é uma das características mais importantes quando se projeta algo com painel solar, pois é necessário conhecer e realizar a previsão de parâmetros importantes como a irradiação solar, temperatura e carga que será atendida. A maioria dos métodos presentes na literatura utiliza a curva I-V para o cálculo desses parâmetros ou então outros métodos de natureza empírica, a seguir vamos usar essa técnica\cite{pv_datasheet} para montar um modelo para as simulações.
 
 \subsection*{Modelo para simulação}
 A curva I-V geral de um painel solar é baseada no modelo exponencial \cite{pv_datasheet}:
@@ -103,13 +103,13 @@ Onde os parâmetros do modelo são,
 Além desses parâmetros, $k$ é a constante de Boltzmann, $q$ é a carga do elétron, $n_{s}$ é o número de células conectadas em série, e $T_{stc}$ ($K$) é a temperatura na STC\footnote{STC, sigla para \textit{Standard Test Conditions}, condições de teste para aferir as medidas de caracterização de um painel solar.}.
 
 \section{Conversores DC-DC}\label{converters_revision}
-Conversores DC-DC \cite{ti_whitepaper}\cite{power_electronics_hart} são dispositivos eletrônicos capazes de converter uma tensão de entrada em um tensão diferente e, normalmente, provê uma saída regulada. Os conversores to tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitir uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. Existem quatro topologias de conversões bastante comuns, porém as próximas subseções detalharão brevemente os princípios de funcionamento das topologias necessárias para o entendimento do trabalho que são a Buck e a SEPIC.
+Conversores DC-DC \cite{ti_whitepaper}\cite{power_electronics_hart} são dispositivos eletrônicos capazes de converter uma tensão de entrada em uma tensão diferente e, normalmente, fornecem uma saída regulada. Os conversores do tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitirem uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. Existem quatro topologias de conversões bastante comuns, porém as próximas subseções detalharão brevemente os princípios de funcionamento das topologias necessárias para o entendimento do trabalho que são a \textit{Buck} e a \textit{SEPIC}.
 
-Antes de continuarmos para as topologias, inicialmente, vamos entender o significado de ser chaveado. Em um circuito chaveado, existirá um transistor que atuará como chave, ou seja, alterar entre os estados completamente ligado e completamente desligado. Para um transistor do tipo BJT isso significa transicionar entre os estados de corte e saturação, no transistor do tipo MOSFET, entre os estados de corte e triodo. 
+Antes de continuar para as topologias, inicialmente, vamos entender o significado de "ser chaveado". Em um circuito chaveado, existirá um transistor que atuará como chave, ou seja, alterará entre os estados completamente ligado e completamente desligado. Para um transistor do tipo BJT isso significa transicionar entre os estados de corte e saturação, no transistor do tipo MOSFET, significa transicionar entre os estados de corte e triodo. 
 
 %TODO: Considerar mesclar essa seção com a seção do conversor Buck.
 \subsection*{Pulse Width Modulation (PWM)}
-Todos os conversores abordados abaixo, usam uma forma de regulação da tensão de saída conhecido como modulação por largura de pulso, ou \textit{PWM - Pulse Width Modulation}. Simplificadamente, o loop de feedback ajusta a tensão de saída alterando o tempo em que a chave, ou o elemento comutador, do conversor ficará ligada.
+Todos os conversores abordados abaixo usam uma forma de regulação da tensão de saída conhecido como modulação por largura de pulso, ou \textit{PWM - Pulse Width Modulation}. Simplificadamente, o loop de \textit{feedback} ajusta a tensão de saída alterando o tempo em que a chave, ou o elemento comutador, do conversor ficará ligada.
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -122,7 +122,7 @@ Todos os conversores abordados abaixo, usam uma forma de regulação da tensão 
 A saída na forma de onda quadrada é filtrada e fornece uma tensão de saída DC igual ao valor da tensão de pico $V_{pk}$ multiplicada pelo \textit{Duty Cycle}, que é a razão entre o período ligado e o período local. Esta relação explica como a tensão de saída conversor pode ser diretamente controlada apenas alterando o Duty Cycle.  
 
 \subsection*{Topologia SEPIC}
-O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradução livre, Conversor com Indutância Simples no Primário é um conversor capaz de converter uma tensão DC de entrada para um tensão DC maior ou menor, porém sem que ocorra inversão de polaridade. Essa característica traz uma versatilidade muito boa para essa topologia de conversor, uma vez que a inversão de polaridade costuma ser indesejada em muito projetos.  Para essa topologia, como a utilizaremos bastante mais adiante, vamos realizar a demonstração da relação entre as tensões de entrada e saída.   
+O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradução livre, Conversor com Indutância Simples no Primário é um conversor capaz de converter uma tensão DC de entrada para uma tensão DC maior ou menor, porém sem que ocorra inversão de polaridade. Essa característica traz uma versatilidade muito boa para essa topologia de conversor, uma vez que a inversão de polaridade costuma ser indesejada em muito projetos.  Para essa topologia, como a utilizaremos bastante mais adiante, vamos realizar a demonstração da relação entre as tensões de entrada e saída.   
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -148,6 +148,7 @@ O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradu�
 \label{sepic_topology_open_sample}
 \end{minipage}
 
+\paragraph{}
 Para a demonstração abaixo, são colocadas as seguintes premissas:
 \begin{enumerate}
     \item Os indutores são grandes o suficiente para que as correntes sejam constantes
@@ -157,12 +158,12 @@ Para a demonstração abaixo, são colocadas as seguintes premissas:
     \item A chave e o diodo são ideais
 \end{enumerate}
 
-Aplicando a Lei de Kirchoff no laço $V_{1}$, $L_{1}$, $C_{1}$, $L_{2}$:
+Aplicando a Lei de \textit{Kirchoff} no laço $V_{1}$, $L_{1}$, $C_{1}$, $L_{2}$:
 \begin{equation}
     - V_{1} + V_{L1} + V_{C1} - V_{L2} = 0
 \end{equation}
 
-Considerando a tensões médias atráves do indutores:
+Considerando a tensões médias nos indutores:
 \begin{equation}
     \begin{split}
         - V_{1} + 0 + V_{C1} - 0 = 0 \\ V_{C1} = V_{1}
@@ -175,7 +176,7 @@ Quando a chave está fechada e o diodo em polarização reversa, conforme na fig
     V_{L1} = V_{S}
 \end{equation}
 
-Quando a chave está aberta e o diodo em polarização direta, conforme na figura \ref{sepic_topology_open_sample}. A Lei de Kirchoff no laço mais externo nos entrega:
+Quando a chave está aberta e o diodo em polarização direta, conforme na figura \ref{sepic_topology_open_sample}. A Lei de \textit{Kirchoff} no laço mais externo nos entrega:
 \begin{equation}
     -V_{1} + V_{L1} + V_{C1} + V_{R1} = 0
 \end{equation}
@@ -201,7 +202,7 @@ Expandindo a equação considerando os períodos da chave aberta e chave fechada
 Onde \textit{D} é o \textit{Duty Cycle} aplicado na chave.
 
 \subsection*{Topologia Buck}
-A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada para converter uma tensão DC para uma tensão DC menor e de mesma polaridade. Para essa topologia, apresentaremos apenas uma análise qualitativa, uma vez que a relação entre as tensões pode ser feita de forma analóga ao conversor SEPIC. O conversor \textit{buck} utiliza um transistor para chavear a tensão de entrada para o indutor, conforme observado no circuito abaixo:
+A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada para converter uma tensão DC para uma tensão DC menor e de mesma polaridade. Para essa topologia, apresenta-se apenas uma análise qualitativa, uma vez que a relação entre as tensões pode ser feita de forma analóga ao conversor SEPIC. O conversor \textit{buck} utiliza um transistor para chavear a tensão de entrada para o indutor, conforme observado no circuito abaixo:
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -211,7 +212,7 @@ A topologia de conversor chaveado mais utilizada é a \textit{Buck}, utilizada p
 \label{buck_topology_sample}
 \end{minipage}
 
-Quando a chave é ligada, a tensão de entrada é conectada com o indutor. A diferença entre as tensões da entrada e saída é forçada através do indutor, fazendo com que a corrente passando por ele aumente. Portanto, enquanto a chave estiver ligada, a corrente passa pela carga e pelo capacitor de saída, que está carregando nesse período. Quando a chave é desligada, a tensão aplicada no indutor some, entretanto, como a corrente de um indutor não pode mudar instantaneamente, caso contrário estariamos violando a Lei da Indutância\footnote{Pela Lei da Indutância, seria necessário uma tensão infinita para interromper a corrente passando um indutor de forma instântanea}, a tensão através do indutor será ajustada para manter a corrente constante.
+Quando a chave é ligada, a tensão de entrada é conectada com o indutor. A diferença entre as tensões da entrada e saída é forçada através do indutor, fazendo com que a corrente passando por ele aumente. Portanto, enquanto a chave estiver ligada, a corrente passa pela carga e pelo capacitor de saída, que está sendo carregado durante o período. Quando a chave é desligada, a tensão aplicada no indutor some, entretanto, como a corrente de um indutor não pode mudar instantaneamente, caso contrário estaríamos violando a Lei da Indutância\footnote{Pela Lei da Indutância, seria necessário uma tensão infinita para interromper a corrente passando um indutor de forma instântanea}, a tensão através do indutor será ajustada para manter a corrente constante.
 
 A extremidade de entrada do indutor é forçada pela tensão negativa devido à diminuição da corrente, eventualmente colocando o diodo no estado de condução, a partir desse momento a corrente do indutor passa pela carga e volta atráves do diodo. Ainda durante o período de chave desligada, o capacitor de saída se descarrega na carga, contribuindo com a corrente total que é fornecida durante o período. 
 
@@ -240,7 +241,7 @@ No inicio do ciclo, o primeiro passo é aferir a tensão e corrente na carga. Co
     \item A potência diminuiu e a tensão diminuiu: aumentar o \textit{Duty Cycle} no conversor
 \end{enumerate}
 
-Após fazer as correções no conversor, os valores dessa iteração são salvos para serem usado posteriormente como comparação com a iteração seguinte. O algoritmo P e O é amplamente utilizado devido a simplicidade de implementação e boa eficiência. Um ponto desfavorável desse algoritmo é que ele não consegue atingir uma estabilidade quando próximo do ponto de máxima potência, uma vez que ele sempre estará avaliando e tentando ajustar o circuito.
+Após fazer as correções no conversor os valores dessa iteração são salvos para serem usado posteriormente como comparação com a iteração seguinte. O algoritmo P e O é amplamente utilizado devido a simplicidade de implementação e boa eficiência. Um ponto desfavorável desse algoritmo é que ele não consegue atingir uma estabilidade quando próximo do ponto de máxima potência, uma vez que ele sempre estará avaliando e tentando ajustar o circuito.
 
 \subsection*{Algoritmo: Condutância Incremental}
 
