@@ -7,21 +7,17 @@ Inicialmente foi realizada uma conceituação básica do tema, apresentando o pr
 
 Na revisão téorica, abordou-se os principais conceitos para o entendimento da topologia proposta, apresentou-se a especificação \textit{cubesat}, o funcionamento básico de um painel solar, os dispositivos de conversão DC-DC, a técnica MPPT - \textit{Maximum Peak Point Tracking} e os dois algoritmos mais utilizados para executá-la.
 
-O desenvolvimento inicia apresentando um \textit{background} de missões anteriores de quatro nanossatélites distintos e quais soluções eram utilizadas para os módulos EPS. Após isso, é mostrado o levantamento que foi realizado em termos dos \textit{payloads}, os seus consumos e tarefas desempenhadas por eles e como que esse consumo energético está ligado ao dimensionamento do EPS.
+O desenvolvimento inicia apresentando um \textit{background} de missões anteriores de quatro nanossatélites distintos e quais soluções eram utilizadas para os módulos EPS. Após isso, é mostrado o levantamento que foi realizado em termos dos \textit{payloads}, os seus consumos e tarefas desempenhadas por eles e como que esse consumo energético está ligado ao dimensionamento do EPS, consolidando os objetivos especifícos 1, 2 e 3.
 
-A proposta foi dividida em duas topologias, uma com os componentes discretos, a qual foi simulada e construída, de acordo com os modelos de referência apresentados para placa solar, baterias e EPS, com o conversor DC-DC LM2735Y da Texas Instruments, que tem as vantagens de ser um conversor mais simples, com menos configurações, ocupando pouco espaço de PCB, contudo atingindo uma alta eficiência. Para a segunda topologia com o controlador MPPT, foi apresentado o SPV1040, o mesmo utilizado na missão ESTCube-1, as suas especificações, modos de operação e um circuito projetado para o cenário proposto conforme explicado nos modelos de referência, porém que não foi possível executar simulações pela ausência de modelos SPICE para o componente.
-
-\input{tabelas/lm2735_bill.tex}
-
-\input{tabelas/spv1040_bill.tex}
+A proposta foi dividida em duas topologias, uma com os componentes discretos, a qual foi simulada e construída, de acordo com os modelos de referência apresentados para placa solar, baterias e EPS, com o conversor DC-DC LM2735Y da Texas Instruments, que tem as vantagens de ser um conversor mais simples, com menos configurações, ocupando pouco espaço de PCB, contudo atingindo uma alta eficiência. Para a segunda topologia com o controlador MPPT, foi apresentado o SPV1040, o mesmo utilizado na missão ESTCube-1, as suas especificações, modos de operação e um circuito projetado para o cenário proposto conforme explicado nos modelos de referência, porém que não foi possível executar simulações pela ausência de modelos SPICE para o componente, dessa forma, o objetivo especifíco 4 foi cumprido apenas parcialmente.
 
 No fim, ambas as topologias são capazes de atender os aspectos técnicos necessários para o EPS, conforme observado na tabela \ref{comparison_specs_table} que coloca lado a lado as especificações de ambos os dispositivos, em seguida, as tabelas \ref{lm2735_bom_table} e \ref{spv1040_specs_table} mostram uma possível lista de materiais requeridos por cada uma das implementações.
 
-\input{tabelas/specs_comparison.tex}
-
 Portanto, visando os critérios de um menor número de componentes, o que, por sua vez, diminui o esforço para integração e de programação de microcontroladores, um menor espaço ocupado em PCB e um menor custo de implementação, a topologia com o circuito integrado de controlador MPPT é a mais recomendada.
 
-\subsection*{Recomendações e Próximos Passos}
+\subsection*{Recomendações de trabalhos futuros}
 
-Os trabalhos futuros são de extrema importância para a continuidade do projeto, uma continuação lógica dá-se na aquisição dos componentes aqui apresentados e estudados para a realização de uma prova de conceito e validar o que foi proposto, eliminando todas as restrições impostas pela simulação. Outra tarefa que também deve vir em seguida é a integração desses componentes que compõem o circuito de carga da bateria ao \textit{layout} de PCB para o módulo EPS que já se encontra em fase de projeto e desenvolvimento pelo aluno Luiz Antônio, com a orientação do Professor Daniel Café, trabalho acompanhado por mim.
+Os trabalhos futuros são de extrema importância para a continuidade do projeto, existem diversas formas para reforçar e validar o que foi exposto nesse trabalho, sendo a mais latente delas o desenvolvimento de um modelo funcional para o chip SPV1040T, o que permitiria uma comparação direta com as simulações do conversor da Texas. Outras possibilidades envolvem simular o comportamento do conversor LM2735Y para mais cenários e configurações de carregamento distintas, incorporar ao cálculo de \textit{power budget} um modelo orbital mais preciso, a exemplo do que é usado no nanossatélite OUFTI-Next \cite{orbit_dynamics_ref}. Todas essas tarefas podem vir a incorporar dados valiosos ao trabalho aqui iniciado. 
 
+
+% Além das próximas tarefas naturais do projeto que envolvem a integração desses componentes do circuito de carga da bateria ao \textit{layout} de PCB para o módulo EPS, que já se encontra em fase de projeto e desenvolvimento pelo aluno Luiz Antônio, com a orientação do Professor Daniel Café, trabalho acompanhado por mim. 

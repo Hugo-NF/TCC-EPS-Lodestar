@@ -35,9 +35,9 @@ Para os conversores e controladores, que são os alvos do trabalho, estaremos ut
 
 Para cada conversor, além do cenário em operação normal, serão apresentados os seguintes cenários:
 \begin{itemize}
-    \item Transiente da tensão de entrada de 0V até a tensão de operação máxima. Com esse cenário, avalia-se quanto de tensão na entrada é preciso para que o conversor forneça a saída regulada na tensão desejada.
-    \item Chaveamento entre desligado e ligado. Nesse cenário, avalia-se a resposta do conversor ao degrau, ou seja, o transiente de quanto o conversor é ligado, o que se traduz em um baixo tempo de resposta, ou seja, o tempo necessário para que a tensão na saída esteja estabilizada é pequeno.
-    \item Alterações na carga durante a simulação já com o circuito no estado estável. Uma carga extra será inserida no meio da simulação. Nesse cenário, estamos interessados na resposta do conversor a essa situação. O objetivo é saber quanto tempo é necessário para restaurar a operação normal e o quanto de queda de tensão está presente. 
+    \item transiente da tensão de entrada de 0V até a tensão de operação máxima. Com esse cenário, avalia-se quanto de tensão na entrada é preciso para que o conversor forneça a saída regulada na tensão desejada;
+    \item chaveamento entre desligado e ligado. Nesse cenário, avalia-se a resposta do conversor ao degrau, ou seja, o transiente de quanto o conversor é ligado, o que se traduz em um baixo tempo de resposta, ou seja, o tempo necessário para que a tensão na saída esteja estabilizada é pequeno;
+    \item alterações na carga durante a simulação já com o circuito no estado estável. Uma carga extra será inserida no meio da simulação. Nesse cenário, estamos interessados na resposta do conversor a essa situação. O objetivo é saber quanto tempo é necessário para restaurar a operação normal e o quanto de queda de tensão está presente. 
 \end{itemize}
 
 
@@ -86,7 +86,7 @@ A tensão $V_{pp}$ de ripple na saída ficou em 12.64 mV, dentro da faixa de val
 \label{fig:lm2735_traces_transient}
 \end{minipage}
 
-A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o transiente de tensão aplicado, para isso substituimos o painel solar por uma fonte de tensão do tipo PULSE, que foi programada para executar uma rampa de 0 até 7 V em 1 s. Observa-se que quando a tensão de entrada ultrapassa o valor de aproximadamente 1.3V já é possível observar uma tensão na saída, porém com uma tensão de \textit{ripple} bastante elevada de 330.14 mV, fora da tolerância. Quando a tensão mínima de entrada do conversor (2.7 V) é atingida, é possível obter uma tensão de saída próxima do alvo de 5 V e com a tensão de \textit{ripple} dentro da tolerância de 5\% do valor da saída, com 115.14 mV. Esse \textit{ripple} vai diminuindo a medida que a tensão na entrada aumenta para a tensão esperada do ponto de máxima potência do painel solar e a para as tensões de entrada superiores as esperadas para o painel, a saída se satura em aproximadamente 5.1 V.
+A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o transiente de tensão aplicado, para isso substituimos o painel solar por uma fonte de tensão do tipo PULSE, que foi programada para executar uma rampa de 0 até 5.5 V em 1 s. Observa-se que quando a tensão de entrada ultrapassa o valor de aproximadamente 1.3V já é possível observar uma tensão na saída, porém com uma tensão de \textit{ripple} bastante elevada de 330.14 mV, fora da tolerância. Quando a tensão mínima de entrada do conversor (2.7 V) é atingida, é possível obter uma tensão de saída próxima do alvo de 5 V e com a tensão de \textit{ripple} dentro da tolerância de 5\% do valor da saída, com 115.14 mV. Esse \textit{ripple} vai diminuindo a medida que a tensão na entrada aumenta para a tensão esperada do ponto de máxima potência do painel solar e a para as tensões de entrada superiores as esperadas para o painel, a saída se satura em aproximadamente 5.1 V.
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -112,7 +112,7 @@ A figura \ref{fig:lm2735_traces_transient} mostra a resposta quando temos o tran
 \label{fig:lm2735_traces_current}
 \end{minipage}
 
-As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 5 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 0.155 ms após o chaveamento da segunda carga, com uma queda de tensão na saída de 0.32V. O tempo de resposta foi bastante parecido com o chaveamento entre ligado e desligado (única carga de 12 $\Omega$) que foi de 0.191 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.05 mV para 28.31 mV, mais do que o dobro da tensão com apenas uma carga.
+As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a resposta do conversor quando uma segunda carga resistiva de 12 $\Omega$ é inserida no circuito, a chave foi programada para ligar em t=0.5 ms, observa-se que o conversor consegue retomar a situação estável em 0.155 ms após o chaveamento da segunda carga, com uma queda de tensão na saída de 0.32V. O tempo de resposta foi bastante parecido com o chaveamento entre ligado e desligado (única carga de 12 $\Omega$) que foi de 0.191 ms, conforme figura \ref{fig:lm2735_traces_switch}, porém a tensão de \textit{ripple} na saída é afetada, passando de 10.05 mV para 28.31 mV, mais do que o dobro da tensão com apenas uma carga.
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -126,7 +126,7 @@ As figuras \ref{fig:lm2735_current} e \ref{fig:lm2735_traces_current} mostram a 
 
 \subsection*{SPV1040}
 
-Para a solução integrada, utilizaremos de referência o SPV1040 \cite{spv1040_datasheet} da ST Microelectronics, o mesmo utilizado na missão ESTCube-1. 
+Para a solução integrada, utilizaremos de referência o SPV1040 \cite{spv1040_datasheet} da ST Microelectronics, o mesmo utilizado na missão ESTCube-1. Para esse controlador, o problema da ausência de modelos SPICE se repete, da mesma forma que ocorreu com os microcontroladores, por esse motivo, faremos uma análise qualitativa do dispositivo com seus modos de operação e um esquemático feito para a carga de uma bateria.
 
 Conforme explicado no capítulo \ref{desenvolvimento}, o SPV1040 é um controlador completo, dessa forma, o \textit{Duty Cycle} é internamente controlado pelo algoritmo de MPPT, o que no caso desse componente é o algoritmo Pertuba e Observa. A tensão de entrada $V_{in}$ opera entre os valores de 0.3 e 5.5 V, o é que suficiente para o painel solar escolhido e a frequência de chaveamento é fixa em 100 kHz. Além de já fornecer a saída regulada, possui também proteção contra superaquecimento e sobrecorrente. Dependendo da configuração, o \textit{datasheet} mostra que a eficiência dele pode chegar em até 95\%, sendo extremamente indicado para essas situações onde é preciso lidar com tensões de entrada baixas. 
 
@@ -158,3 +158,4 @@ A figura \ref{fig:spv1040_block} mostra o diagrama de blocos do dispositivo e a 
 \captionof{figure}{SPV1040 configurado para 3.8 V @ 500 mA}
 \label{fig:spv1040_sample}
 \end{minipage}
+

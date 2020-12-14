@@ -1,71 +1,67 @@
 \chapter{Revisão Teórica} \label{revisao}
 
-Esta seção visa oferecer os conceitos necessários para o completo entendimento desse trabalho. Inicialmente, serão apresentados os conceitos relacionados a classificação de satélites, o padrão \textit{Cubesat}, alguns conceitos de eletrônica e, por fim, um histórico das missões anteriores com enfoque nos sistemas de potência utilizados.
+Esta seção visa oferecer os conceitos necessários para o completo entendimento desse trabalho. Inicialmente, serão apresentados os conceitos relacionados a classificação de satélites, o padrão \textit{CubeSat}, alguns conceitos de eletrônica e, por fim, um histórico das missões anteriores com enfoque nos sistemas de potência utilizados.
 
 \section{Nanossatélites}\label{nanosats_revision}
-Normalmente, a classificação mais utilizada para satélites é com relação a sua massa. Na figura abaixo, podemos ver as categorias utilizadas nessa classificação e alguns exemplos de artefatos já lançados. Observe que os nanossatélites se encontram na faixa de 1 até 10 kg.
+A classificação mais utilizada para satélites é com relação a sua massa. Na figura abaixo, podemos ver as categorias utilizadas nessa classificação e alguns exemplos de artefatos já lançados. Observe que os nanossatélites se encontram na faixa de 1 até 10 kg.
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/Satellite-mass-classification.png}}
 \label{mass_classification_fig}
-\captionof{figure}{Classificação de satélites, com alguns exemplos}
+\captionof{figure}{Classificação de satélites, com alguns exemplos. Fonte: \cite{barnhart_ref}.}
 \end{minipage}
 
- Os principais responsáveis por essa redução de massa são a miniaturização dos circuitos integrados e as padronizações das estruturas de lançamento, como no padrão \textit{Cubesat}. Os nanossatélites são amplamente utilizados nas atividades de ensino, pois permitem um ciclo completo de uma missão espacial mantendo um custo baixo, principalmente devido ao uso de peças comerciais.\cite{barnhart_ref}
+ Os principais responsáveis por essa redução de massa são a miniaturização dos circuitos integrados e as padronizações das estruturas de lançamento, como no padrão \textit{CubeSat}. Os nanossatélites são amplamente utilizados nas atividades de ensino, pois permitem um ciclo completo de uma missão espacial mantendo um custo baixo, principalmente devido ao uso de peças comerciais.\cite{barnhart_ref}
 
-\section{\textit{Cubesat}}\label{cubesat_revision}
+\section{\textit{CubeSat}}\label{cubesat_revision}
 
-O padrão \textit{Cubesat} foi um dos grandes responsáveis pela popularização da categoria de nanossatélites, como se vê no gráfico abaixo, que mostra o número de lançamentos desse tipo por ano.\cite{cubesats_cgee}.
+O padrão \textit{CubeSat} foi um dos grandes responsáveis pela popularização da categoria de nanossatélites, como se vê no gráfico abaixo, que mostra o número de lançamentos desse tipo por ano.\cite{cubesats_cgee}.
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/cubesat-launches-count.png}}
-\captionof{figure}{Distribuição do número de \textit{Cubesats} pelo ano de lançamento}
+\captionof{figure}{Distribuição do número de \textit{CubeSats} pelo ano de lançamento. Fonte: \cite{cubesats_cgee}.}
 \label{cubesat_launches_fig}
 \end{minipage}
 
-O modelo \textit{Cubesat} foi proposto em 1999 por Jordi Puig-Suari, da \textit{California Polytechnic State University}, e Bob Twiggs, da \textit{Stanford University}. O objetivo era um modelo de satélite de pequeno porte que segue um padrão mais simples, o intuito deles era fornecer aos alunos de ambas universidades a oportunidade de  participar de um projeto espacial completo, incluindo todas as fases, desde a construção, testes e operação do artefato, que manteria características similares aos satélites maiores. 
+O modelo \textit{CubeSat} foi proposto em 1999 por Jordi Puig-Suari, da \textit{California Polytechnic State University}, e Bob Twiggs, da \textit{Stanford University}. O objetivo era um modelo de satélite de pequeno porte que segue um padrão mais simples, o intuito deles era fornecer aos alunos de ambas universidades a oportunidade de  participar de um projeto espacial completo, incluindo todas as fases, desde a construção, testes e operação do artefato, que manteria características similares aos satélites maiores. O termo é um acrônimo entre as palavras \textit{cube} (em inglês, cubo) acrescida das três primeiras letras da palavra satélite.
 
-O termo é um acrônimo entre as palavras \textit{cube} (em inglês, cubo) acrescida das três primeiras letras da palavra satélite.
+Normalmente, as missões com \textit{CubeSats} tem um risco técnico mais elevado, em parte devido ao uso de componentes não \textit{"space qualified"}, porém oferecem em troca uma implementação mais rápida, aplicações mais inovadoras, custos menores ou um conjunto desses elementos.
 
-Normalmente, as missões com \textit{Cubesats} tem um risco técnico mais elevado, em parte devido ao uso de componentes não \textit{"space qualified"}, porém oferecem em troca uma implementação mais rápida, aplicações mais inovadoras, custos menores ou um conjunto desses elementos.
-
-As principais características dos \textit{Cubesats} são as seguintes:
+As principais características dos \textit{CubeSats} são as seguintes:
 \begin{itemize}
-    \item Compostos por unidades cúbicas padronizadas (1U) de tamanho 10x10x10 cm, conforme mostrado na figura \ref{cubesat_configs_fig};
-    \item Uso de sistemas padronizados de ejeção em órbita, denominados, P-POD (do inglês, \textit{Poly Picosatellite Orbital Deployer}) ou SSPL (do inglês, \textit{Space Shuttle Picosatellite Launcher}). Esses sistemas são capazes de liberar diversos satélites pela mesma interface;
-    \item Componentes COTS nos sistemas de bordo.
+    \item compostos por unidades cúbicas padronizadas (1U) de tamanho 10x10x10 cm, conforme mostrado na figura \ref{cubesat_configs_fig};
+    \item uso de sistemas padronizados de ejeção em órbita, denominados, P-POD (do inglês, \textit{Poly Picosatellite Orbital Deployer}) ou SSPL (do inglês, \textit{Space Shuttle Picosatellite Launcher}). Esses sistemas são capazes de liberar diversos satélites pela mesma interface;
+    \item componentes COTS nos sistemas de bordo.
 \end{itemize}
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/cubesats-configs.png}}
-\captionof{figure}{Algumas configurações de \textit{Cubesats}}
+\captionof{figure}{Algumas configurações de \textit{CubeSats}. Fonte: \cite{cubesats_cgee}.}
 \label{cubesat_configs_fig}
 \end{minipage}
 
-O padrão é descrito em um documento de domínio público\cite{cubesat_specs_rev13}, onde se especifica que uma unidade \textit{Cubesat} ou 1U, tem um volume de 1 litro e carga útil de até 1,3 kg, podendo combinar várias unidades dessas para compor satélites maiores (2U, 3U, 6U ou 12U, por exemplo).
-
-Quanto aos requisitos elétricos, o padrão apresenta dois requisitos extremamente importantes que são o \textit{Deployment Switch} e o pino \textit{Remove Before Flight} (RBF).
-\begin{enumerate}
-    \item O \textit{Deployment Switch} é uma chave que deve desconectar eletricamente todos os subsistemas, sem exceções, do sistema de potência.
-    \item Essa chave deve atuar durante todo o tempo que o CubeSat estiver acoplado no P-POD, e esse sinal é recebido dos trilhos do P-POD, conforme figura \ref{cubesat1U_dimensions_fig}.
-    \item Por sua vez, o RBF, é um pino que deve cortar toda a alimentação do satélite uma vez que estiver inserido. Ele será removido após o encaixe na base de lançamento P-POD e não deve avançar mais do que 6.5 mm além dos trilhos.
-\end{enumerate}
+O padrão é descrito em um documento de domínio público\cite{cubesat_specs_rev13}, onde se especifica que uma unidade \textit{CubeSat} ou 1U, tem um volume de 1 litro e carga útil de até 1,3 kg, podendo combinar várias unidades dessas para compor satélites maiores (2U, 3U, 6U ou 12U, por exemplo). A figura \ref{cubesat1U_dimensions_fig} mostra as especificações mecânicas da unidade \textit{CubeSat}.
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/Cubesat-diagram.png}}
-\captionof{figure}{Especificações de dimensionamento para um \textit{Cubesat} 1U}
+\captionof{figure}{Especificações de dimensionamento para um \textit{CubeSat} 1U. Fonte: \cite{cubesat_specs_rev13}.}
 \label{cubesat1U_dimensions_fig}
 \end{minipage}
 
-Por esses e outros aspectos, os \textit{Cubesats} trouxeram um aspecto inovador capaz de mudar o paradigma do setor espacial, adequando-o à nova tendência de emprego de pequenos satélites para atender a diferentes tipos de demandas.
+Quanto aos requisitos elétricos, o padrão apresenta dois requisitos extremamente importantes que são o \textit{Deployment Switch} e o pino \textit{Remove Before Flight} (RBF).
+
+O \textit{Deployment Switch} é uma chave que deve desconectar eletricamente todos os subsistemas, sem exceções, do sistema de potência. Essa chave deve atuar durante todo o tempo que o CubeSat estiver acoplado no P-POD, e esse sinal é recebido dos trilhos do P-POD, conforme figura \ref{cubesat1U_dimensions_fig}.
+Por sua vez, o RBF, é um pino que deve cortar toda a alimentação do satélite uma vez que estiver inserido. Ele será removido após o encaixe na base de lançamento P-POD e não deve avançar mais do que 6.5 mm além dos trilhos.
+
+Por esses e outros aspectos, os \textit{CubeSats} trouxeram um aspecto inovador capaz de mudar o paradigma do setor espacial, adequando-o à nova tendência de emprego de pequenos satélites para atender a diferentes tipos de demandas.
 
 \section{Paineis Solares}
 Os painéis solares, ou PV\footnote{Photovoltaics - conforme literatura em inglês sobre o assunto}, são dispositivos que utilizam o efeito fotovoltaico para produzir energia elétrica. Nas células solares, a diferença de potencial surge quando um elétron recebe energia suficiente para passar da camada de valência para a camada de condução do material semicondutor.
@@ -84,23 +80,19 @@ Na equação acima, $V_{t}$ é a tensão térmica da junção P-N.
 \begin{equation}
     V_{t} = \frac{AkT_{stc}}{q}
 \end{equation}
-Com esses parâmetros, forma-se o seguinte circuito equivalente para uma célula solar:
+
+Com esses parâmetros, forma-se o circuito equivalente, mostrado na figura \ref{PV_equivalent_circuit_fig}, para uma célula solar:
+
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/PV_eq_circuit.PNG}}
-\captionof{figure}{Circuito equivalente para uma célula fotovoltaica, usando o modelo exponencial}
+\captionof{figure}{Circuito equivalente para uma célula fotovoltaica, usando o modelo exponencial.}
 \label{PV_equivalent_circuit_fig}
 \end{minipage}
-Onde os parâmetros do modelo são,
-\begin{itemize}
-    \item $I_{ph}$ - Corrente gerada pela célula
-    \item $I_{o}$ - Corrente de saturação
-    \item $R_{s}$ - Resistência em série da célula
-    \item $R_{sh}$ - Resistência em paralelo da célula (shunt)
-    \item $A$ - Fator de qualidade do diodo
-\end{itemize}
-Além desses parâmetros, $k$ é a constante de Boltzmann, $q$ é a carga do elétron, $n_{s}$ é o número de células conectadas em série, e $T_{stc}$ ($K$) é a temperatura na STC\footnote{STC, sigla para \textit{Standard Test Conditions}, condições de teste para aferir as medidas de caracterização de um painel solar.}.
+
+
+Os parâmetros do modelo são $I_{ph}$ - Corrente gerada pela célula, $I_{o}$ - Corrente de saturação, $R_{s}$ - Resistência em série da célula, $R_{sh}$ - Resistência em paralelo da célula (shunt) e $A$ - Fator de qualidade do diodo. Além desses parâmetros, $k$ é a constante de Boltzmann, $q$ é a carga do elétron, $n_{s}$ é o número de células conectadas em série, e $T_{stc}$ ($K$) é a temperatura na STC\footnote{STC, sigla para \textit{Standard Test Conditions}, condições de teste para aferir as medidas de caracterização de um painel solar.}.
 
 \section{Conversores DC-DC}\label{converters_revision}
 Conversores DC-DC \cite{ti_whitepaper}\cite{power_electronics_hart} são dispositivos eletrônicos capazes de converter uma tensão de entrada em uma tensão diferente e, normalmente, fornecem uma saída regulada. Os conversores do tipo chaveados estão cada vez mais comuns devido a alta eficiência e por permitirem uma flexibilidade de projeto, ou seja, da mesma tensão de saída é possível gerar multiplas tensões de saída de projetos diferentes. Existem quatro topologias de conversões bastante comuns, porém as próximas subseções detalharão brevemente os princípios de funcionamento das topologias necessárias para o entendimento do trabalho que são a \textit{Buck} e a \textit{SEPIC}.
@@ -115,7 +107,7 @@ Todos os conversores abordados abaixo usam uma forma de regulação da tensão d
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
     \includegraphics[keepaspectratio=true, scale=0.5]{imagens/PWM_sample.png}}
-\captionof{figure}{Exemplo de uma saída PWM}
+\captionof{figure}{Exemplo de uma saída PWM. Fonte: \cite{ti_whitepaper}}
 \label{PWM_sample_fig}
 \end{minipage}
 
@@ -151,11 +143,11 @@ O nome SEPIC (\textit{Single-Ended Primary Inductance Converter}), ou, em tradu�
 \paragraph{}
 Para a demonstração abaixo, são colocadas as seguintes premissas:
 \begin{enumerate}
-    \item Os indutores são grandes o suficiente para que as correntes sejam constantes
-    \item Os capacitores são grandes o suficiente para que as tensões sejam constantes
-    \item O circuito está operando no estado estável, o que significa que a formas de onda de tensão e corrente são períodicas
-    \item Para um \textit{Duty Cycle D}, a chave fica fechada por \textit{$DT$} e aberta por \textit{$(1 - D)T$}
-    \item A chave e o diodo são ideais
+    \item os indutores são grandes o suficiente para que as correntes sejam constantes;
+    \item os capacitores são grandes o suficiente para que as tensões sejam constantes;
+    \item o circuito está operando no estado estável, o que significa que a formas de onda de tensão e corrente são períodicas;
+    \item para um \textit{Duty Cycle D}, a chave fica fechada por \textit{$DT$} e aberta por \textit{$(1 - D)T$};
+    \item a chave e o diodo são ideais.
 \end{enumerate}
 
 Aplicando a Lei de \textit{Kirchoff} no laço $V_{1}$, $L_{1}$, $C_{1}$, $L_{2}$:

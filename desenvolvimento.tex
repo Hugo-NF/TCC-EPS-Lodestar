@@ -10,39 +10,17 @@ O CUTE \cite{cute1_ref} (Cubical  Tóquio  Tech  Engineering  Satellite-I) é um
 
 O SNAP-1 \cite{snap1_ref} foi o primeiro nanossatélite desenvolvido no Reino Unido pela Surrey Space Centre (SSC) e Surrey Satellite Tecnology Ltd (SSTL) e serviu como veículo de teste para demonstração da nova tecnologia que estava surgindo, ele foi um dos pioneiros dessa nova filósofia de design e mostrou que era possível construir um nanossatélite rapidamente e com custo baixo, utilizando peças COTS. O seu EPS tem uma arquitetura parcialmente distribuída, porque das suas duas linhas de tensão (5 e 12 V), a de 12 V não é regulada, dessa forma, cada módulo que utilize essa linha deve implementar a regulação. Além disso, utiliza uma única bateria de 10 Wh e o EPS tem um modo burst, onde é possível utilizar até 60 W por alguns minutos.
 
-ESTCube-1 \cite{estcube1_ref} foi um \textit{cubesat} 1U lançado pelo foguete Vega VV02. Desenvolvido por uma força tarefa de 4 universidades, tinha o objetivo científico de realizar uma prova de conceito de medição e demonstração da tecnologia da tecnologia de velas solares elétricas. O seu EPS utilizava um design próprio um controlador MPPT da STMicroelectronics (SPV1040) para cada 4 células solares com duas baterias 18650 da Panasonic totalizando 9 Wh e linhas controladas de 12, 5 e 3.3 V.
+ESTCube-1 \cite{estcube1_ref} foi um \textit{CubeSat} 1U lançado pelo foguete Vega VV02. Desenvolvido por uma força tarefa de 4 universidades, tinha o objetivo científico de realizar uma prova de conceito de medição e demonstração da tecnologia da tecnologia de velas solares elétricas. O seu EPS utilizava um design próprio um controlador MPPT da STMicroelectronics (SPV1040) para cada 4 células solares com duas baterias 18650 da Panasonic totalizando 9 Wh e linhas controladas de 12, 5 e 3.3 V.
 
-O SwissCube-1, \cite{swisscube_ref}\cite{lessons_swisscube_ref} foi um \textit{cubesat} suíço científico de tamanho 1U, operado pela Ecole Polytechnique Fédérale de Lausanne (EPFL) para realizar pesquisas sobre o \textit{nightglow} (fenômeno de brilho noturno na atmosfera terrestre) e também para desenvolver tecnologia para futuras naves espaciais. O seu EPS utilizava um design próprio com duas baterias de 1200 mAh, uma única linha de tensão, controlada por um circuito analógico, de 3.3 V,  e possui um sistema de beacon integrado que funciona sem o auxílio de microcontroladores externos, como os do OBC, por exemplo.
+O SwissCube-1, \cite{swisscube_ref}\cite{lessons_swisscube_ref} foi um \textit{CubeSat} suíço científico de tamanho 1U, operado pela Ecole Polytechnique Fédérale de Lausanne (EPFL) para realizar pesquisas sobre o \textit{nightglow} (fenômeno de brilho noturno na atmosfera terrestre) e também para desenvolver tecnologia para futuras naves espaciais. O seu EPS utilizava um design próprio com duas baterias de 1200 mAh, uma única linha de tensão, controlada por um circuito analógico, de 3.3 V,  e possui um sistema de beacon integrado que funciona sem o auxílio de microcontroladores externos, como os do OBC, por exemplo.
 
 \section{Análise de consumo energético da missão}
-
-Um dos pontos centrais para um projeto de EPS é dimensionar o \textit{payload} e os outros subsistemas para o pior cenário de consumo. O EPS deve ser capaz de manter o \textit{cubesat} em funcionamento quando esse cenário estiver presente. A tabela \ref{tab:requisites_modules} mostra os consumos máximos absolutos separados por módulo.
-
-\begin{table}[!ht]
-    \centering
-    \begin{tabular}{l|ccc}
-        Subsistema & Corrente & Tensão & Potência \\
-        \hline
-        Atuador magnético & \SI{900}{\milli\ampere} & \SI{5}{\volt} & \SI{4,5}{\watt}\\
-        On board computer (OBC) & \SI{160}{\milli\ampere} & \SI{5}{\volt} & \SI{0.8}{\watt}\\
-        Transceiver UHF & \SI{1.2}{\ampere} & \SI{3.3}{\volt} & \SI{3.96}{\watt}\\
-        AD\&CS & \SI{2}{\milli\ampere} & \SI{3.3}{\volt} & \SI{6.6}{\milli\watt}\\
-        \hline
-        Total \SI{3.3}{\volt} & ~\SI{1.202}{\ampere} & - & \SI{3.9666}{\watt}\\
-        Total \SI{5}{\volt} & ~\SI{1.06}{\ampere} & - & \SI{5.3}{\watt}\\ \hline
-        Total & ~\SI{2.46}{\ampere} & - & \SI{9.26}{\watt}\\
-    \end{tabular}
-    \caption{Requisitos de potência para cada subsistema}
-    \label{tab:requisites_modules}
-\end{table}
 
 A pesquisa pelos outros EPSs lançados mostrou algumas opções com relação a arquitetura. A primeira decisão é sobre quem é responsável por fazer a regulação e distribuição das linhas, ou seja, se o EPS deve centralizar a regulação das linhas e já fornecer a alimentação para os diversos módulos já com a tensão e carga requeridas por cada um deles. A outra opção é distribuir essa responsabilidade entre os módulos de forma que cada é responsável por regular as tensões necessárias para o funcionamento interno daquele módulo. Usualmente, quando o EPS é responsável pela regulação das linhas de tensão existe também alguma interface que permita aos módulos controlar qual linha está ligada em um dado momento, normalmente o protocolo $I^{2}C$ é o escolhido para essa comunicação.
 
 A segunda decisão arquitetural envolve a implementação da técnica MPPT, que será utilizada para maximizar a eficiência do painel solar, em uma das arquiteturas as células solares são colocadas em regime MPPT com um conversor DC/DC, um microcontrolador é usado para ajustar o \textit{Duty Cycle} de uma \textit{PWM - Pulse Width Modulation} e colocar esse ponto baseado na tensão e corrente da célula solar. A saída do conversor DC/DC é conectada a um circuito de proteção da bateria, responsável por parar o carregamento caso esta esteja totalmente carregada. Esse módulo também é responsável pela proteções de subtensão e sobrecorrente, o que consiste em basicamente desligar as cargas para proteger a saúde da bateria, dado que existe um limite até é possível que ela seja descarregada. A outra opção existente é utilizar um controlador MPPT completo, onde toda essa funcionalidade está integrada em um único chip.
 
-Após isso, a saída protegida é regulada para múltiplas linhas que podem alimentar um ou mais subsistemas. 
-
-Baseado nessa arquitetura e nas especificações do padrão Cubesat, a figura \ref{fig:block_diagram} mostra o diagrama de blocos da implementação proposta:
+Após isso, a saída protegida é regulada para múltiplas linhas que podem alimentar um ou mais subsistemas. Baseado nessa arquitetura e nas especificações do padrão CubeSat, a figura \ref{fig:block_diagram} mostra o diagrama de blocos da implementação proposta:
 
 \noindent
 \begin{minipage}{\linewidth}
@@ -54,16 +32,36 @@ Baseado nessa arquitetura e nas especificações do padrão Cubesat, a figura \r
 
 Com essa arquitetura definida, o trabalho de pesquisa e simulação dos componentes foi dividido entre mim e outro aluno do laboratório LODESTAR, Luiz Antônio, que está trabalhando com a parte da regulação das linhas de tensão a partir da bateria, dessa forma estamos abarcando todos os requisitos propostos inicialmente para o EPS.
 
+Um dos pontos centrais para um projeto de EPS é dimensionar o \textit{payload} e os outros subsistemas para o pior cenário de consumo. O EPS deve ser capaz de manter o \textit{CubeSat} em funcionamento quando esse cenário estiver presente. A tabela \ref{tab:requisites_modules} mostra os consumos máximos absolutos separados por módulo.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{l|ccc}
+        Subsistema & Corrente & Tensão & Potência \\
+        \hline
+        Atuador magnético & \SI{900}{\milli\ampere} & \SI{5}{\volt} & \SI{4,5}{\watt}\\
+        OBC - Abacus & \SI{160}{\milli\ampere} & \SI{5}{\volt} & \SI{0.8}{\watt}\\
+        Transceiver UHF & \SI{1.2}{\ampere} & \SI{3.3}{\volt} & \SI{3.96}{\watt}\\
+        AD\&CS & \SI{2}{\milli\ampere} & \SI{3.3}{\volt} & \SI{6.6}{\milli\watt}\\
+        \hline
+        Total \SI{3.3}{\volt} & ~\SI{1.202}{\ampere} & - & \SI{3.9666}{\watt}\\
+        Total \SI{5}{\volt} & ~\SI{1.06}{\ampere} & - & \SI{5.3}{\watt}\\ \hline
+        Total & ~\SI{2.46}{\ampere} & - & \SI{9.26}{\watt}\\
+    \end{tabular}
+    \caption{Requisitos de potência para cada subsistema}
+    \label{tab:requisites_modules}
+\end{table}
+
 \subsection*{Tarefas e \textit{Power Budget}}
 
-Após levantar os consumos de cada módulo, o próximo passo é construir um \textit{power budget} baseado nas tarefas que o \textit{cubesat} precisa realizar ao longo de um ciclo.  
+Após levantar os consumos de cada módulo, o próximo passo é construir um \textit{power budget} baseado nas tarefas que o \textit{CubeSat} precisa realizar ao longo de um ciclo.  
 
 Alguns blocos da figura \ref{fig:block_diagram}, tais como as células solares e baterias foram escolhidas baseadas no \textit{power budget} disponível. Segue abaixo o \textit{power budget} estimado para a missão, detalhando cada um dos componentes e seus consumos, baseado nisso, e usando as informações da órbita, é possível determinar o número minímo de baterias e de células solares para conseguir carregar com sucesso o conjunto de baterias durante um ciclo. A figura \ref{fig:power_budget} mostra o \textit{power budget}:
 
 \noindent
 \begin{minipage}{\linewidth}
 \makebox[\linewidth]{
-    \includegraphics[keepaspectratio=true, scale=0.5]{imagens/powerbudget.png}}
+    \includegraphics[keepaspectratio=true, scale=0.6]{imagens/powerbudget_correct.png}}
 \captionof{figure}{\textit{Power budget} estimado para o EPS}
 \label{fig:power_budget}
 \end{minipage}
@@ -71,14 +69,14 @@ Alguns blocos da figura \ref{fig:block_diagram}, tais como as células solares e
 As seguintes premissas foram consideradas na construção dessa tabela:
 
 \begin{enumerate}
-    \item O sistema de comunicação irá operar por um período máximo de 20 minutos e permanecerá em modo de recepção durante o restante do ciclo.
-    \item O consumo do atuador magnético está modelado para funcionar com pulsos de 1 minuto em potência máxima, é assumido que haverá 100 pulsos durante o ciclo.
-    \item O computador de bordo (OBC) estará em modo ativo por no máximo 1 hora e durante o tempo em que estiverem ocorrendo transmissões, no total de 1 hora e 20 minutos.
-    \item Apenas uma das faces do nanossatélite está exposta à radiação solar por vez.
+    \item o sistema de comunicação irá operar por um período máximo de 20 minutos e permanecerá em modo de recepção durante o restante do ciclo;
+    \item o consumo do atuador magnético está modelado para funcionar com pulsos de 1 minuto em potência máxima, é assumido que haverá 100 pulsos durante o ciclo;
+    \item o computador de bordo (OBC) estará em modo ativo por no máximo 1 hora e durante o tempo em que estiverem ocorrendo transmissões, no total de 1 hora e 20 minutos;
+    \item apenas uma das faces do nanossatélite está exposta à radiação solar por vez.
 \end{enumerate}
 
 
-Na coluna \textit{Source} é colocado de onde vieram as informações a respeito do módulo, onde aparece a GOMSpace que é uma fabricante e fornecedora de nanossatélites e componentes em vários mercados, além de ser uma empresa referência no mercado, com vários casos de sucesso, por isso o laboratório LODESTAR tem intenção de compra com a GOMSpace do nanossatélite do primeiro lançamento da missão. O Abacus é um computador de bordo (OBC) fabricado pela Gauss Srl e utilizado para testes no LODESTAR, por ser um OBC multi-propósito ele tem um consumo maior do que os computadores da GOMSpace, o que pode vir a aumentar o nosso saldo no Power Budget. O atuador magnético \cite{unb_mag_actuator} e o ADCS \cite{carol_adcs} utilizados como referência são de trabalhos desenvolvidos por alunos do laboratório. 
+Na coluna \textit{Source} é colocado de onde vieram as informações a respeito do módulo, onde aparece a GOMSpace que é uma fabricante e fornecedora de nanossatélites e componentes em vários mercados, além de ser uma empresa referência no mercado, com vários casos de sucesso, por isso o laboratório LODESTAR tem intenção de compra com a GOMSpace do nanossatélite do primeiro lançamento da missão. Os módulos de comunicação \cite{comms_gomspace_datasheet} e de EPS \cite{eps_gomspace_datasheet} usados nos cálculos são de fabricação da GOMSpace. O Abacus \cite{gauss_obc_datasheet} é um computador de bordo (OBC) fabricado pela Gauss Srl e utilizado para testes no LODESTAR, por ser um OBC multi-propósito ele tem um consumo maior do que os computadores da GOMSpace, o que pode vir a aumentar o nosso saldo no \textit{Power Budget}. O atuador magnético \cite{unb_mag_actuator} e o ADCS \cite{carol_adcs} utilizados como referência são de trabalhos desenvolvidos por alunos do laboratório. 
 
 
 Com esse \textit{power budget}, a menor célular solar (1U) da GOMSPACE é usada como referência. Essa célula solar é capaz de prover até \SI{27}{\watt}. Note que usada apenas essa célula, o \textit{budget} ainda fica com um saldo negativo, o que significa que estamos consumindo menos energia do que a que conseguimos adquirir, porém essa margem ainda é pequena. Portanto, mais células solares devem ser usadas para prover uma quantidade segura de energia.
@@ -96,7 +94,7 @@ Além do conversor DC/DC, para completar um circuito minímo para implementar o 
 
 \section{Solução com controlador integrado}
 
-O uso de um chip independente para a implementação do MPPT traz muitas vantagens com relação a implementação tradicional usando componentes discretos. A primeira delas é que isso torna o sistema MPPT complementamente autônomo, permitindo que o aquisição de energia continue mesmo com o esgotamento total das baterias. A segunda é por dispensar recursos do microcontrolador, seja por livrar recursos de algum que desempenha várias funcionalidade ou dispensar um microcontrolador exclusivo para essa tarefa. A terceira está relacionada com a segunda, que é o \textit{footprint} bem reduzido no projeto final da PCB, pois estamos dispensando vários componentes discretos. Para esses controladores, o problema da ausência de modelos SPICE se repete, da mesma forma que ocorreu com os microcontroladores.
+O uso de um chip independente para a implementação do MPPT traz muitas vantagens com relação a implementação tradicional usando componentes discretos. A primeira delas é que isso torna o sistema MPPT complementamente autônomo, permitindo que o aquisição de energia continue mesmo com o esgotamento total das baterias. A segunda é por dispensar recursos do microcontrolador, seja por livrar recursos de algum que desempenha várias funcionalidade ou dispensar um microcontrolador exclusivo para essa tarefa. A terceira está relacionada com a segunda, que é o \textit{footprint} bem reduzido no projeto final da PCB, pois estamos dispensando vários componentes discretos.
 
 
 
